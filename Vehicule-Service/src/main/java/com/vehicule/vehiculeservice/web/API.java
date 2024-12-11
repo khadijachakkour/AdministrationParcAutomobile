@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vehicules")
@@ -16,7 +17,6 @@ public class API {
 
     @Autowired
     private VehiculeService vehiculeService;
-
 
 
     // Route pour obtenir tous les véhicules
@@ -33,7 +33,6 @@ public class API {
 
     }
 
-
     // Route pour créer un nouveau véhicule
     @PostMapping
     public ResponseEntity<Vehicule> createVehicule(@RequestBody Vehicule vehicule) {
@@ -41,7 +40,7 @@ public class API {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdVehicule);
     }
 
-    // Route pour mettre à jour un véhicule existant
+    // Route pour mettre à jour un véhicule
     @PutMapping("/{id}")
     public ResponseEntity<Vehicule> updateVehicule(@PathVariable Long id, @RequestBody Vehicule vehicule) {
         Vehicule updatedVehicule = vehiculeService.Update_Vehicule(id, vehicule);
@@ -61,5 +60,37 @@ public class API {
     @GetMapping("/statut/{statut}")
     public List<Vehicule> getVehiculesByStatut(@PathVariable Vehicule.Statut statut) {
         return vehiculeService.getVehiculesByStatut(statut);
+    }
+
+
+    // API pour récupérer les véhicules disponibles
+    @GetMapping("/disponibles")
+    public List<Vehicule> getVehiculesDisponibles() {
+        return vehiculeService.getVehiculesDisponibles();
+    }
+
+    // API pour mettre à jour le statut d'un véhicule
+    @PutMapping("/{id}/statut")
+    public Vehicule mettreAJourStatut(@PathVariable Long id, @RequestParam Vehicule.Statut statut) {
+        return vehiculeService.mettreAJourStatut(id, statut);
+    }
+
+    // API pour vérifier la disponibilité d'un véhicule
+    @GetMapping("/{id}/disponibilite")
+    public ResponseEntity<Boolean> verifierDisponibilite(@PathVariable Long id) {
+        try {
+            // Vérifier la disponibilité du véhicule
+            Boolean disponible = vehiculeService.verifierDisponibilite(id);
+            return ResponseEntity.ok(disponible);  // Retourne true ou false en fonction de la disponibilité
+        } catch (RuntimeException e) {
+            // Si le véhicule n'est pas trouvé, on retourne une erreur 404
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    // API pour obtenir des statistiques sur les véhicules
+    @GetMapping("/statistiques")
+    public Map<String, Long> obtenirStatistiques() {
+        return vehiculeService.obtenirStatistiques();
     }
 }
