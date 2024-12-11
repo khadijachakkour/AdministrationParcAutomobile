@@ -1,35 +1,25 @@
 package com.example.user_service.dto;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.Set;
 
-@Getter
-@Setter
-
 public class UserDTO {
+
     private Long id;
     private String username;
     private String password;
     private String email;
-    private Set<String> roles;
+    private Set<String> roles;  // Les rôles sous forme de noms de chaînes
 
-
-    public UserDTO(Long id, String username, String email,String password, Set<String> roles) {
+    // Constructeurs, getters et setters
+    public UserDTO(Long id, String username, String password, String email, Set<String> roles) {
         this.id = id;
         this.username = username;
+        this.password = password;
         this.email = email;
         this.roles = roles;
-        this.password = password ;
     }
 
-    public UserDTO() {
-    }
-
+    // Getters et setters
     public Long getId() {
         return id;
     }
@@ -44,6 +34,14 @@ public class UserDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -61,14 +59,5 @@ public class UserDTO {
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    // Remarque : On peut stocker seulement les noms des rôles (ou leurs IDs si besoin)
 }
+

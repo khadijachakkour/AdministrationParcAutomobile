@@ -12,7 +12,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "role") // Spécifiez explicitement le nom de la table pour Role
 public class Role {
@@ -30,6 +29,8 @@ public class Role {
         this.name = name;
     }
 
+    public Role() {
+    }
     // Getters and Setters
 
 

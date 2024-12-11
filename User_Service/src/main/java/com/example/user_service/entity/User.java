@@ -21,15 +21,13 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_role", // Table de jointure
             joinColumns = @JoinColumn(name = "user_id"), // Clé étrangère vers la table User
             inverseJoinColumns = @JoinColumn(name = "role_id") // Clé étrangère vers la table Role
     )
     private Set<Role> roles = new HashSet<>();
-
 
     public User() {
         // Constructeur par défaut

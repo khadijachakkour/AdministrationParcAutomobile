@@ -19,16 +19,18 @@ public class SecurityConfig {
     // Bean pour la configuration de la sécurité des requêtes HTTP
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Désactiver CSRF uniquement si vous n'utilisez pas de sessions ou de formulaires
+        // Désactiver CSRF si non nécessaire
         http.csrf(csrf -> csrf.disable());
 
         // Configurer les autorisations d'accès
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // Autoriser l'accès à Swagger sans authentification
-                //.requestMatchers("/api/users/**").hasRole("ADMIN")  // Restreindre l'accès à /api/users aux utilisateurs ayant le rôle "ADMIN"
-                //.requestMatchers("/api/technicians/**").hasRole("TECHNICIEN") // Restreindre l'accès aux techniciens
-                .anyRequest().authenticated()  // Autres endpoints nécessitent une authentification
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger accessible sans authentification
+                .anyRequest().permitAll() // Permettre toutes les requêtes sans authentification
         );
+
+        // Pas d'authentification ni de gestion de sessions
+        http.securityContext(securityContext -> securityContext.requireExplicitSave(false));
+        http.sessionManagement(session -> session.disable());
 
         return http.build();
     }
