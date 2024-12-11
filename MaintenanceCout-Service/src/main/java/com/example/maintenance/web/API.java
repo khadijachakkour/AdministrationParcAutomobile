@@ -3,8 +3,15 @@ package com.example.maintenance.web;
 import com.example.maintenance.entities.Maintenance_Cout;
 import com.example.maintenance.service.MaintenanceCoutService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -58,4 +65,26 @@ public class API {
     }
 
 
+    // Endpoint pour générer un rapport des maintenances et retourner le PDF
+    @GetMapping("/rapport-pdf")
+    public ResponseEntity<byte[]> genererRapportEnPdf() {
+        try {
+            // Appel à la méthode pour générer le rapport en PDF
+            maintenanceCoutService.genererRapportEnPdf();
+
+            // Charger le fichier PDF généré
+            File file = new File("rapport_maintenance.pdf");
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+
+            // Retourner le fichier PDF en réponse
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=rapport_maintenance.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(fileContent);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
