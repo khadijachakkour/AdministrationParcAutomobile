@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VehiculeService {
@@ -29,15 +28,15 @@ public class VehiculeService {
     }
 
     public Vehicule Update_Vehicule(Long id,Vehicule vehicule){
-        return vehiculeRepository.findById(id).map(c ->{
-            vehicule.setMarque(vehicule.getMarque());
-            vehicule.setModele(vehicule.getModele());
-            vehicule.setTypeVehicule(vehicule.getTypeVehicule());
-            vehicule.setCouleur(vehicule.getCouleur());
-            vehicule.setDateDerniereMaintenance(vehicule.getDateDerniereMaintenance());
-            vehicule.setDateAchat(vehicule.getDateAchat());
-            vehicule.setStatut(vehicule.getStatut());
-            return vehiculeRepository.save(vehicule);
+        return vehiculeRepository.findById(id).map(v ->{
+            v.setMarque(vehicule.getMarque());
+            v.setModele(vehicule.getModele());
+            v.setTypeVehicule(vehicule.getTypeVehicule());
+            v.setCouleur(vehicule.getCouleur());
+            v.setDateDerniereMaintenance(vehicule.getDateDerniereMaintenance());
+            v.setDateAchat(vehicule.getDateAchat());
+            v.setStatut(vehicule.getStatut());
+            return vehiculeRepository.save(v);
         }).orElseThrow(()-> new RuntimeException("Vehicule pas trouvée"));
     }
 
