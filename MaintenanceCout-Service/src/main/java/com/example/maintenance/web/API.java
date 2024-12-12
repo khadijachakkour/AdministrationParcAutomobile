@@ -3,6 +3,7 @@ package com.example.maintenance.web;
 import com.example.maintenance.entities.Maintenance_Cout;
 import com.example.maintenance.service.MaintenanceCoutService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -41,6 +43,7 @@ public class API {
         List<Maintenance_Cout> maintenanceCouts = maintenanceCoutService.GetALL_MaintenanceVehicules();
         return ResponseEntity.ok(maintenanceCouts);
     }
+
     // Endpoint pour récupérer une maintenance par ID
     @GetMapping("/{id}")
     public ResponseEntity<Maintenance_Cout> getMaintenanceById(@PathVariable Long id) {
@@ -86,5 +89,24 @@ public class API {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/graphique/{idVehicule}")
+    public ResponseEntity<InputStreamResource> getGraph(@PathVariable Long idVehicule) throws IOException {
+        List<Maintenance_Cout> maintenances = maintenanceCoutService.getHistoriqueByVehicule(idVehicule);
+        String filePath = "maintenance_graph.png";
+
+        // Génération du graphique
+        maintenanceCoutService.generateGraph(maintenances, filePath);
+
+        // Lecture du fichier généré
+        File file = new File(filePath);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName())
+                .contentType(MediaType.IMAGE_PNG)
+                .contentLength(file.length())
+                .body(resource);
     }
 }

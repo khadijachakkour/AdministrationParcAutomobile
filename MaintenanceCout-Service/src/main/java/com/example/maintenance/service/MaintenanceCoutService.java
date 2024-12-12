@@ -9,9 +9,14 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtils;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +30,14 @@ public class MaintenanceCoutService {
     @Autowired
     private VehiculeRestFeign vehiculeRestFeign;
 
+    // Méthode pour enregistrer une maintenance
     public Maintenance_Cout enregistrerMaintenance(Maintenance_Cout maintenance_cout) {
         return maintenanceCoutRepository.save(maintenance_cout);
+    }
+
+    // Liste des maintenances par vehicule
+    public List<Maintenance_Cout> getHistoriqueByVehicule(Long idVehicule) {
+        return maintenanceCoutRepository.findByIdVehicule(idVehicule);
     }
 
     // Méthode pour consulter les coûts des maintenances d'un véhicule
@@ -71,7 +82,7 @@ public class MaintenanceCoutService {
             m.setDate(maintenance_cout.getDate());
             m.setId_vehicule(maintenance_cout.getId_vehicule());
             return maintenanceCoutRepository.save(m);
-        }).orElseThrow(() -> new RuntimeException("Chercheur pas trouvée"));
+        }).orElseThrow(() -> new RuntimeException("Maintenance non trouvée"));
     }
 
     // Méthode pour générer un rapport en PDF des coûts de maintenance
@@ -89,19 +100,19 @@ public class MaintenanceCoutService {
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
 
         // Ajouter un titre au document PDF
-        document.add(new Paragraph("Rapport des Coûts de Maintenance")
+        document.add(new Paragraph("Rapport des Maintenances")
                 .setFont(PdfFontFactory.createFont())
                 .setFontSize(18)
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold());
 
         // Créer un tableau pour afficher les données
-        Table table = new Table(5); // 4 colonnes (ID Véhicule, Marque, Coût, Date)
+        Table table = new Table(5);
         table.addCell("ID Véhicule");
         table.addCell("Marque");
         table.addCell("Modéle");
-        table.addCell("Coût");
-        table.addCell("Date");
+        table.addCell("Coût Maintenance");
+        table.addCell("Date Maintenance");
 
         // Récupérer toutes les maintenances
         List<Maintenance_Cout> toutesLesMaintenances = maintenanceCoutRepository.findAll();
@@ -116,14 +127,31 @@ public class MaintenanceCoutService {
             table.addCell(maintenance.getDate().toString());
         }
 
-        // Ajouter le tableau au document PDF
         document.add(table);
 
-        // Fermer le document PDF
         document.close();
 
         System.out.println("Le rapport PDF a été généré avec succès : " + fileName);
     }
+
+//Utilisation du bibliothèque JFreeChart pour générer un graphique à barres représentant les coûts de maintenance des véhicules
+    public void generateGraph(List<Maintenance_Cout> maintenances, String filePath) throws IOException {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        maintenances.forEach(maintenance ->
+                dataset.addValue(maintenance.getCout(), "Coût", maintenance.getDate().toString())
+        );
+
+        JFreeChart barChart = ChartFactory.createBarChart(
+                "Coûts de Maintenance",
+                "Date",
+                "Coût",
+                dataset
+        );
+
+        ChartUtils.saveChartAsPNG(new File(filePath), barChart, 800, 600);
+    }
+
 
 }
 
