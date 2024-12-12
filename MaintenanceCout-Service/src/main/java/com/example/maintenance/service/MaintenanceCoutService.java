@@ -155,7 +155,7 @@ public class MaintenanceCoutService {
 
 
 
-    // Méthode pour obtenir les statistiques globales et les retourner sous forme de DTO
+    // Méthode pour obtenir les statistiques globales des maintenances
     public Map<String, Double> obtenirStatistiquesGlobales() {
         List<Maintenance_Cout> maintenances = maintenanceCoutRepository.findAll();
 
