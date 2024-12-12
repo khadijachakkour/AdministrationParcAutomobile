@@ -15,11 +15,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -153,5 +154,38 @@ public class MaintenanceCoutService {
     }
 
 
+
+    // Méthode pour obtenir les statistiques globales et les retourner sous forme de DTO
+    public Map<String, Double> obtenirStatistiquesGlobales() {
+        List<Maintenance_Cout> maintenances = maintenanceCoutRepository.findAll();
+
+        double totalCout = 0.0;
+        double nombreTotalMaintenances = 0;
+        double maxCout = 0.0;
+        double vehiculeLePlusCouteuxId = -1;
+
+        // Calculer le coût total, le nombre total de maintenances et le véhicule le plus coûteux
+        for (Maintenance_Cout maintenance : maintenances) {
+            totalCout += maintenance.getCout();
+            nombreTotalMaintenances++;
+
+            if (maintenance.getCout() > maxCout) {
+                maxCout = maintenance.getCout();
+                vehiculeLePlusCouteuxId = maintenance.getId_vehicule();
+            }
+        }
+
+        // Calculer le coût moyen
+        double coutMoyen = totalCout / nombreTotalMaintenances;
+
+        Map<String, Double> statistiques = new HashMap<>();
+        statistiques.put("ID du véhicule le plus coûteux: ", vehiculeLePlusCouteuxId);
+        statistiques.put("Coût moyen de maintenance : ", coutMoyen);
+        statistiques.put("Coût total des maintenances : ", totalCout);
+        statistiques.put("Nombre total de maintenances : ", nombreTotalMaintenances);
+
+        return statistiques;
+
+    }
 }
 

@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/maintenance")
@@ -91,6 +92,7 @@ public class API {
         }
     }
 
+    // Endpoint pour générer un graph sur le cout des maintenances d'un vehicule
     @GetMapping("/graphique/{idVehicule}")
     public ResponseEntity<InputStreamResource> getGraph(@PathVariable Long idVehicule) throws IOException {
         List<Maintenance_Cout> maintenances = maintenanceCoutService.getHistoriqueByVehicule(idVehicule);
@@ -108,5 +110,10 @@ public class API {
                 .contentType(MediaType.IMAGE_PNG)
                 .contentLength(file.length())
                 .body(resource);
+    }
+
+    @GetMapping("/statistiques")
+    public Map<String, Double> obtenirStatistiques() {
+        return maintenanceCoutService.obtenirStatistiquesGlobales();
     }
 }
