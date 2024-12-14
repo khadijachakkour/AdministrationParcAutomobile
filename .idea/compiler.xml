@@ -6,7 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Gateway-Service" />
         <module name="AdministartionParc" />
+        <module name="Discovery-Service" />
+        <module name="Security_Microservice" />
       </profile>
       <profile name="Annotation profile for User_Service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -18,9 +21,16 @@
         <module name="User_Service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Security_Service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Discovery-Service" options="-parameters" />
+      <module name="Gateway-Service" options="-parameters" />
+      <module name="Security_Microservice" options="-parameters" />
+      <module name="Security_Service" options="-parameters" />
       <module name="User_Service" options="-parameters" />
     </option>
   </component>

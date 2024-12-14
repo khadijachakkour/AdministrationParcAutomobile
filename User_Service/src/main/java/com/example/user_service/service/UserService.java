@@ -21,22 +21,18 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository; // Repository pour interroger les rôles
+    private RoleRepository roleRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Injectez le PasswordEncoder
+    private PasswordEncoder passwordEncoder;
 
     // Créer un utilisateur
     public UserDTO createUser(UserDTO userDTO) {
-        // Créer un objet User
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
-
-        // Hachage du mot de passe
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-        // Associer les rôles
         Set<Role> roles = userDTO.getRoles().stream()
                 .map(roleName -> roleRepository.findByName(roleName).orElseThrow(() -> new RuntimeException("Role not found: " + roleName)))
                 .collect(Collectors.toSet());
@@ -47,10 +43,8 @@ public class UserService {
 
         user.setRoles(roles);
 
-        // Enregistrer l'utilisateur
         User savedUser = userRepository.save(user);
 
-        // Retourner l'UserDTO avec les informations
         return new UserDTO(
                 savedUser.getId(),
                 savedUser.getUsername(),
@@ -60,8 +54,6 @@ public class UserService {
         );
     }
 
-
-    // Mapper un utilisateur existant vers un DTO
     public UserDTO mapToDTO(User user) {
         Set<String> roles = user.getRoles().stream()
                 .map(Role::getName)
@@ -69,17 +61,35 @@ public class UserService {
         return new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), roles);
     }
 
-    // Exemple d'usage : récupérer un utilisateur par son ID
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        return mapToDTO(user); // Mapper l'entité vers le DTO
+        return mapToDTO(user);
     }
 
-    // Récupérer tous les utilisateurs
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(this::mapToDTO)  // Utilise la méthode mapToDTO
+                .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
+
+    // Valider l'utilisateur en fonction de l'email et du mot de passe
+    public boolean validateUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return false;
+        }
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    // Vérifier si l'utilisateur a un rôle spécifique
+    public boolean checkUserRole(String email, String roleName) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return false;
+        }
+        return user.getRoles().stream()
+                .anyMatch(role -> role.getName().equalsIgnoreCase(roleName));
+    }
 }
+

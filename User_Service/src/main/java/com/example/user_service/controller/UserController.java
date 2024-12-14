@@ -40,4 +40,25 @@ public class UserController {
         List<UserDTO> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "Validate user credentials", response = Boolean.class)
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> isValidUser(@RequestParam String email, @RequestParam String password) {
+        boolean isValid = userService.validateUser(email, password);
+        if (!isValid) {
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Check user role", response = Boolean.class)
+    @GetMapping("/hasRole")
+    public ResponseEntity<Boolean> hasRole(@RequestParam String email, @RequestParam String role) {
+        boolean hasRole = userService.checkUserRole(email, role);
+        if (!hasRole) {
+            return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
 }
