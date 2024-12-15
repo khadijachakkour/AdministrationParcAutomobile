@@ -91,5 +91,21 @@ public class UserService {
         return user.getRoles().stream()
                 .anyMatch(role -> role.getName().equalsIgnoreCase(roleName));
     }
+
+    public UserDTO getUserByEmail(String email) {
+        // Recherche de l'utilisateur par email dans la base de données
+        User user = userRepository.findByEmail(email);
+
+        // Si l'utilisateur existe, convertir l'entité en UserDTO
+        if (user != null) {
+            Set<String> roles = new HashSet<>();
+            user.getRoles().forEach(role -> roles.add(role.getName()));  // Si les rôles sont des entités
+            return new UserDTO(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), roles);
+        }
+
+        return null;  // Retourner null si l'utilisateur n'existe pas
+    }
+
+
 }
 

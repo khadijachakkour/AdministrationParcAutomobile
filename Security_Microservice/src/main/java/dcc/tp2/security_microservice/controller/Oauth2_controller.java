@@ -6,8 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -31,95 +30,81 @@ public class Oauth2_controller {
     }
 
     @PostMapping("/login")
-        public Map<String, String> login( String username,  String password, String userType){
-
-        String combined = username+":"+userType;
-
-        System.out.println(username+" and "+password+" and "+userType+" end "+combined);
-
-        // vérifier authetification
+    public Map<String, String> login(@RequestParam String username, @RequestParam String password) {
+        // Authentifier l'utilisateur
         Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(combined, password)
+                new UsernamePasswordAuthenticationToken(username, password)
         );
 
-        // générer les tokens
+        // Générer un token JWT
         Instant instant = Instant.now();
-        // recupérer Scopes de l'utilisateur
 
-        String scope =  authenticate.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
+        // Récupérer les rôles de l'utilisateur
+        String scope = authenticate.getAuthorities().stream()
+                .map(auth -> auth.getAuthority())
+                .collect(Collectors.joining(" "));
 
-        JwtClaimsSet jwtClaimsSet_Access_token =  JwtClaimsSet.builder()
+        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuer("MS_sec")
                 .subject(authenticate.getName())
                 .issuedAt(instant)
                 .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
-                .claim("name",authenticate.getName())
-                .claim("scope",scope)
+                .claim("name", authenticate.getName())
+                .claim("scope", scope)
                 .build();
-        // Signée le token
-        String Access_Token = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet_Access_token)).getTokenValue();
 
-        // refresh Token
+        String accessToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
 
-        JwtClaimsSet jwtClaimsSet_refresh_token =  JwtClaimsSet.builder()
+        // Créer un refresh token
+        JwtClaimsSet refreshTokenClaimsSet = JwtClaimsSet.builder()
                 .issuer("MS_sec")
                 .subject(authenticate.getName())
                 .issuedAt(instant)
                 .expiresAt(instant.plus(15, ChronoUnit.MINUTES))
-                .claim("name",authenticate.getName())
+                .claim("name", authenticate.getName())
                 .build();
-        String RefreshToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet_refresh_token)).getTokenValue();
+        String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshTokenClaimsSet)).getTokenValue();
 
-        Map<String, String> ID_Token = new HashMap<>();
+        // Retourner les tokens générés
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("Access_Token", accessToken);
+        tokens.put("Refresh_Token", refreshToken);
 
-        ID_Token.put("Access_Token",Access_Token);
-        ID_Token.put("Refresh_Token",RefreshToken);
-
-        return ID_Token;
+        return tokens;
     }
 
-    @PostMapping("/RefreshToken")
-    public  Map<String,String> fr_t(String RefreshToken, String userType){
+    @PostMapping("/refreshToken")
+    public Map<String, String> refreshToken(@RequestParam String refreshToken) {
+        // Décoder le refresh token
+        Jwt decoded = jwtDecoder.decode(refreshToken);
 
-        if(RefreshToken==null){
-            return Map.of("Message error","Refresh_Token est necessaite");
-        }
+        // Récupérer le nom d'utilisateur depuis le refresh token
+        String username = decoded.getSubject();
 
-        // vérifer la sig
-        Jwt decoded = jwtDecoder.decode(RefreshToken);
+        // Recharger les détails de l'utilisateur
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        String  username = decoded.getSubject();
-        String  combined = username+":"+userType;
-
-
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(combined);
-
-        // renouveller
-
+        // Générer un nouveau token d'accès
         Instant instant = Instant.now();
-        // recup Scopes
+        String scope = userDetails.getAuthorities().stream()
+                .map(auth -> auth.getAuthority())
+                .collect(Collectors.joining(" "));
 
-        String scope =  userDetails.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
-
-        JwtClaimsSet jwtClaimsSet_Access_token =  JwtClaimsSet.builder()
+        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuer("MS_sec")
                 .subject(userDetails.getUsername())
                 .issuedAt(instant)
                 .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
-                .claim("name",userDetails.getUsername())
-                .claim("scope",scope  )
+                .claim("name", userDetails.getUsername())
+                .claim("scope", scope)
                 .build();
-        String Access_Token = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet_Access_token)).getTokenValue();
 
-        Map<String, String> ID_Token = new HashMap<>();
-        ID_Token.put("Access_Token",Access_Token);
-        ID_Token.put("Refresh_Token",RefreshToken);
+        String accessToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
 
-        return ID_Token;
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("Access_Token", accessToken);
+        tokens.put("Refresh_Token", refreshToken);
 
+        return tokens;
     }
-
-    }
-
-
+}

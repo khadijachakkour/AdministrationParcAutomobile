@@ -44,6 +44,7 @@ public class SecurityConfig {
     }
 
     // service d'authentification
+
     @Bean
     public AuthenticationManager authenticationManager(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -52,7 +53,8 @@ public class SecurityConfig {
         return  new ProviderManager(daoAuthenticationProvider);
     }
 
-   /* @Bean
+    /*
+    @Bean
     UserDetailsManager userDetailsManager(){
         return  new InMemoryUserDetailsManager(
                 User.withUsername("admin").password(passwordEncoder.encode("1234")).authorities("ADMIN").build(),

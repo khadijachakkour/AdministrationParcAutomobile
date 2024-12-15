@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "User Management System", tags = {"Users"})
 @RestController
@@ -60,5 +62,30 @@ public class UserController {
         }
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+
+    // Endpoint pour récupérer un utilisateur par email
+    /*@GetMapping("/email/{email}")
+    public UserDTO getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
+    }*/
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserDTO> getByEmail(@PathVariable String email) {
+        // Recherche de l'utilisateur par email via le service
+        UserDTO userDTO = userService.getUserByEmail(email);
+
+        // Si l'utilisateur est trouvé
+        if (userDTO != null) {
+            // Retourner une réponse HTTP 200 OK avec l'objet UserDTO dans le corps de la réponse
+            return ResponseEntity.ok(userDTO);
+        }
+
+        // Si l'utilisateur n'est pas trouvé, retourner une réponse HTTP 404 Not Found
+        return ResponseEntity.notFound().build();
+    }
+
+
+
 
 }

@@ -9,7 +9,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import com.example.gatewayservice.conf.RsaConfig;
 @Configuration
 @EnableWebFluxSecurity
 //@EnableWebSecurity
@@ -26,10 +25,11 @@ public class SecConfig {
     httpSecurity
             .csrf(csrf -> csrf.disable()) // Désactivation de CSRF pour simplifier
             .authorizeExchange(auth -> auth
-                    .pathMatchers("/User-Service/api/users/validate").permitAll() // Validation utilisateur publique
-                    .pathMatchers("/User-Service/api/users/hasRole").permitAll() // Vérification du rôle public
-                    .pathMatchers("/User-Service/api/users").hasAuthority("ADMIN") // Création d'utilisateur uniquement pour les ADMIN
-                    .pathMatchers("/User-Service/api/users/{id}").hasAnyAuthority("ADMIN", "USER") // Accès à un utilisateur par ID pour les ADMIN et USER
+                            .pathMatchers("/User_Service/api/users/email/{id}").permitAll()  // Validation de l'email, public
+                            .pathMatchers("/User_Service/api/users/email").permitAll()  // Vérification de l'email public
+                            .pathMatchers("/User_Service/api/users/**").hasAuthority("ADMIN")  // Création d'un utilisateur, réservé à ADMIN
+                            //.pathMatchers("/User_Service/api/users/{id}").hasAnyAuthority("ADMIN", "USER")  // Accès à un utilisateur par ID, réservé à ADMIN et USER
+                                    // Accès à un utilisateur par ID pour les ADMIN et USER
                     .anyExchange().authenticated() // Exige une authentification pour toute autre route
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt()); // Utilisation de JWT pour l'authentification
