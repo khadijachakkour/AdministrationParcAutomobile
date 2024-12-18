@@ -26,15 +26,15 @@ public class API {
     private MaintenanceCoutService maintenanceCoutService;
 
     @Autowired
-    private NotificationService notificationService;
+    NotificationService notificationService;
 
     // Endpoint pour enregistrer une maintenance
     @PostMapping()
     public ResponseEntity<String> enregistrerMaintenance(@RequestBody Maintenance_Cout maintenance_cout) {
         Maintenance_Cout m=maintenanceCoutService.enregistrerMaintenance(maintenance_cout);
-        // Envoyer une notification au service Flask
+        // Envoyer une notification au MicroService de notification Flask
         String message = "Nouvelle maintenance enregistree pour le vehicule ID : " + m.getId_vehicule();
-        notificationService.envoyerNotification(message);
+        notificationService.sendUserNotification(message);
 
         return ResponseEntity.ok("Maintenance bien enregistrée et notification envoyée.");
     }

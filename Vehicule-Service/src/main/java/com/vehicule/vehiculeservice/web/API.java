@@ -63,7 +63,7 @@ public class API {
             Vehicule createdVehicule = vehiculeService.createVehicule(vehicule);
             // Envoyer une notification après l'enregistrement
             String message = "Nouveau véhicule enregistré : " + createdVehicule.getId();
-            notificationService.envoyerNotification(message);
+            notificationService.sendUserNotification(message);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdVehicule);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

@@ -9,6 +9,7 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
+import jakarta.persistence.EntityNotFoundException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -74,7 +76,14 @@ public class MaintenanceCoutService {
     }
 
     public void DeleteMaintenance(Long id) {
-        maintenanceCoutRepository.deleteById(id);
+        Optional<Maintenance_Cout> maintenance = maintenanceCoutRepository.findById(id);
+
+        if (maintenance.isPresent()) {
+            maintenanceCoutRepository.deleteById(id);
+        }
+     else {
+        throw new EntityNotFoundException("La maintenance avec l'ID " + id + " n'existe pas.");
+    }
     }
 
     public Maintenance_Cout Update_Maintenance(Long id, Maintenance_Cout maintenance_cout) {
