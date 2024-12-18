@@ -2,6 +2,7 @@ package com.example.maintenance.web;
 
 import com.example.maintenance.entities.Maintenance_Cout;
 import com.example.maintenance.service.MaintenanceCoutService;
+import com.example.maintenance.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -24,11 +25,18 @@ public class API {
     @Autowired
     private MaintenanceCoutService maintenanceCoutService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     // Endpoint pour enregistrer une maintenance
     @PostMapping()
     public ResponseEntity<String> enregistrerMaintenance(@RequestBody Maintenance_Cout maintenance_cout) {
         Maintenance_Cout m=maintenanceCoutService.enregistrerMaintenance(maintenance_cout);
-        return ResponseEntity.ok("Maintenance bien enregistre");
+        // Envoyer une notification au service Flask
+        String message = "Nouvelle maintenance enregistree pour le vehicule ID : " + m.getId_vehicule();
+        notificationService.envoyerNotification(message);
+
+        return ResponseEntity.ok("Maintenance bien enregistrée et notification envoyée.");
     }
 
     // Endpoint pour consulter le coût total des maintenances d'un véhicule

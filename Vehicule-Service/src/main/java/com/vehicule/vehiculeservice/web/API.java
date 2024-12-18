@@ -1,6 +1,7 @@
 package com.vehicule.vehiculeservice.web;
 
 import com.vehicule.vehiculeservice.entities.Vehicule;
+import com.vehicule.vehiculeservice.service.NotificationService;
 import com.vehicule.vehiculeservice.service.VehiculeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,6 +19,10 @@ public class API {
 
     @Autowired
     private VehiculeService vehiculeService;
+
+    @Autowired
+    private NotificationService notificationService;
+
 
 
     // Route pour obtenir tous les véhicules
@@ -56,6 +61,9 @@ public class API {
     public ResponseEntity<Vehicule> createVehicle(@RequestBody Vehicule vehicule) {
         try {
             Vehicule createdVehicule = vehiculeService.createVehicule(vehicule);
+            // Envoyer une notification après l'enregistrement
+            String message = "Nouveau véhicule enregistré : " + createdVehicule.getId();
+            notificationService.envoyerNotification(message);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdVehicule);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
