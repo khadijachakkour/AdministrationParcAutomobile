@@ -6,10 +6,16 @@ import com.vehicule.vehiculeservice.service.VehiculeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +64,7 @@ public class API {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping
-    public ResponseEntity<Vehicule> createVehicle(@RequestBody Vehicule vehicule) {
+    public ResponseEntity<Vehicule> createVehicle(@Valid @RequestBody Vehicule vehicule) {
         try {
             Vehicule createdVehicule = vehiculeService.createVehicule(vehicule);
             // Envoyer une notification après l'enregistrement
@@ -74,8 +80,8 @@ public class API {
     @Operation(summary = "Update vehicle", description = "Update an existing vehicle's details")
     @ApiResponse(responseCode = "200", description = "Vehicle updated successfully")
     @PutMapping("/{id}")
-    public ResponseEntity<Vehicule> updateVehicule(@PathVariable Long id, @RequestBody Vehicule vehicule) {
-        Vehicule updatedVehicule = vehiculeService.Update_Vehicule(id, vehicule);
+    public ResponseEntity<Vehicule> updateVehicule(@PathVariable Long id, @Valid @RequestBody Vehicule vehicule) {
+        Vehicule updatedVehicule = vehiculeService.UpdateVehicule(id, vehicule);
         return ResponseEntity.ok(updatedVehicule);
 
     }
@@ -87,6 +93,8 @@ public class API {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehiculeService.deleteVehicule(id);
+        String message = "Le véhicule avec l'ID " + id + " a été supprimé du système.";
+        notificationService.sendUserNotification(message);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -127,7 +135,7 @@ public class API {
     @Operation(summary = "Update vehicle status", description = "Update the status of a specific vehicle")
     @ApiResponse(responseCode = "200", description = "Vehicle status updated successfully")
     @ApiResponse(responseCode = "404", description = "Vehicle not found")
-    @PutMapping("/{id}/statut")
+    @PatchMapping ("/{id}/statut")
     public ResponseEntity<Vehicule> mettreAJourStatut(@PathVariable Long id, @RequestParam Vehicule.Statut statut) {
         Vehicule vehicule = vehiculeService.getVehiculeById(id);
         if (vehicule == null) {
@@ -135,6 +143,19 @@ public class API {
         }
 
         Vehicule updatedVehicule = vehiculeService.mettreAJourStatut(id, statut);
+        // Si le véhicule devient disponible, envoyer une notification
+        if (updatedVehicule.getStatut() == Vehicule.Statut.DISPONIBLE) {
+            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais disponible.";
+            notificationService.sendUserNotification(message);
+        }
+        if (updatedVehicule.getStatut() == Vehicule.Statut.RESERVE) {
+            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais réservé.";
+            notificationService.sendUserNotification(message);
+        }
+        if (updatedVehicule.getStatut() == Vehicule.Statut.EN_MAINTENANCE) {
+            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais en maintenance.";
+            notificationService.sendUserNotification(message);
+        }
 
         return ResponseEntity.ok(updatedVehicule);
     }
@@ -161,5 +182,39 @@ public class API {
     @GetMapping("/statistiques")
     public Map<String, Long> obtenirStatistiques() {
         return vehiculeService.obtenirStatistiques();
+    }
+
+
+    @Operation(summary = "Get paginated and sorted vehicles",
+            description = "Retrieve a paginated and sorted list of vehicles")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Vehicles retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid pagination parameters")
+    })
+
+    //Route pour pagination des liste des vehicules
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<Vehicule>> getPaginatedVehicles(
+            @PageableDefault(size = 10, sort = "id") Pageable pageable) {
+        Page<Vehicule> vehiclesPage = vehiculeService.getPaginatedVehicles(pageable);
+        return ResponseEntity.ok(vehiclesPage);
+    }
+
+
+    @Operation(summary = "Filter vehicles", description = "Filter vehicles based on various parameters")
+    @GetMapping("/filter")
+    public ResponseEntity<List<Vehicule>> filterVehicles(
+            @RequestParam(required = false) String marque,
+            @RequestParam(required = false) String modele,
+            @RequestParam(required = false) String typeVehicule,
+            @RequestParam(required = false) Vehicule.Statut statut,
+            @RequestParam(required = false) LocalDate dateAchat,
+            @RequestParam(required = false) LocalDate dateDerniereMaintenance,
+            @RequestParam(required = false) String couleur) {
+
+        List<Vehicule> filteredVehicles = vehiculeService.filterVehicles(
+                marque, modele, typeVehicule, statut,dateAchat, dateDerniereMaintenance, couleur);
+
+        return ResponseEntity.ok(filteredVehicles);
     }
 }

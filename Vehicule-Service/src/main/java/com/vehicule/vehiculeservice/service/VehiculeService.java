@@ -3,12 +3,15 @@ package com.vehicule.vehiculeservice.service;
 
 import com.vehicule.vehiculeservice.entities.Vehicule;
 import com.vehicule.vehiculeservice.repository.VehiculeRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class VehiculeService {
@@ -23,16 +26,18 @@ public class VehiculeService {
 
     // Méthode pour obtenir un véhicule par son ID
     public Vehicule getVehiculeById(Long id) {
-        return vehiculeRepository.findById(id).orElse(null);
+        return vehiculeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Véhicule avec l'ID " + id + " non trouvé."));
     }
 
     // Méthode pour créer un nouveau véhicule
-    public Vehicule createVehicule(Vehicule vehicule) {
+    public Vehicule createVehicule(@Valid Vehicule vehicule) {
+
         return vehiculeRepository.save(vehicule);
     }
 
-    //// Méthode pour Modifier un véhicule
-    public Vehicule Update_Vehicule(Long id,Vehicule vehicule){
+    // Méthode pour Modifier un véhicule
+    public Vehicule UpdateVehicule(Long id, Vehicule vehicule){
         return vehiculeRepository.findById(id).map(v ->{
             v.setMarque(vehicule.getMarque());
             v.setModele(vehicule.getModele());
@@ -47,7 +52,9 @@ public class VehiculeService {
 
     // Méthode pour supprimer un véhicule
     public void deleteVehicule(Long id) {
-        vehiculeRepository.deleteById(id);
+        Vehicule vehicule = vehiculeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Véhicule avec l'ID " + id + " non trouvé."));
+        vehiculeRepository.delete(vehicule);
     }
 
     // Méthode pour obtenir les véhicules par statut
@@ -91,5 +98,55 @@ public class VehiculeService {
         statistiques.put("reservés", reserves);
 
         return statistiques;
+    }
+
+
+    public Page<Vehicule> getPaginatedVehicles(Pageable pageable) {
+        return vehiculeRepository.findAll(pageable);
+    }
+
+
+    // affiches les vehicules par filtre
+    public List<Vehicule> filterVehicles(String marque, String modele, String typeVehicule, Vehicule.Statut statut,
+                                         LocalDate dateAchat, LocalDate dateDerniereMaintenance, String couleur) {
+
+        // Filtrer par marque
+        if (marque != null && !marque.isEmpty()) {
+            return vehiculeRepository.findByMarque(marque);
+        }
+
+        // Filtrer par modèle
+        if (modele != null && !modele.isEmpty()) {
+            return vehiculeRepository.findByModele(modele);
+        }
+
+        // Filtrer par type de véhicule
+        if (typeVehicule != null && !typeVehicule.isEmpty()) {
+            return vehiculeRepository.findByTypeVehicule(typeVehicule);
+        }
+
+        // Filtrer par statut
+        if (statut != null) {
+            return vehiculeRepository.findByStatut(statut);
+        }
+
+
+        // Filtrer par date d'achat
+        if (dateAchat != null) {
+            return vehiculeRepository.findByDateAchat(dateAchat);
+        }
+
+        // Filtrer par date de dernière maintenance
+        if (dateDerniereMaintenance != null) {
+            return vehiculeRepository.findByDateDerniereMaintenance(dateDerniereMaintenance);
+        }
+
+        // Filtrer par couleur
+        if (couleur != null && !couleur.isEmpty()) {
+            return vehiculeRepository.findByCouleur(couleur);
+        }
+
+        // Si aucun critère n'est spécifié, retourne tout
+        return vehiculeRepository.findAll();
     }
 }
