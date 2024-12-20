@@ -6,6 +6,7 @@ import com.vehicule.vehiculeservice.service.VehiculeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/vehicules")
+@Tag(name = "Vehicle API", description = "Endpoints for managing vehicles")
 public class API {
 
     @Autowired

@@ -9,6 +9,7 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
@@ -35,8 +36,20 @@ public class MaintenanceCoutService {
 
     // Méthode pour enregistrer une maintenance
     public Maintenance_Cout enregistrerMaintenance(Maintenance_Cout maintenance_cout) {
+        // Vérification si le véhicule existe
+        try {
+            Vehicule vehicule = vehiculeRestFeign.VehiculeById(maintenance_cout.getId_vehicule());
+            if (vehicule == null) {
+                throw new IllegalArgumentException("Vehicle with ID " + maintenance_cout.getId_vehicule() + " does not exist.");
+            }
+        } catch (FeignException.NotFound e) {
+            throw new IllegalArgumentException("Vehicle with ID " + maintenance_cout.getId_vehicule() + " does not exist.");
+        }
+
+        // Enregistrer la maintenance si le véhicule existe
         return maintenanceCoutRepository.save(maintenance_cout);
     }
+
 
     // Liste des maintenances par vehicule
     public List<Maintenance_Cout> getHistoriqueByVehicule(Long idVehicule) {
@@ -196,5 +209,31 @@ public class MaintenanceCoutService {
         return statistiques;
 
     }
+
+    //Methode  pour recuperer la liste de véhicules triés par leur coût total de maintenance en ordre décroissant
+    public List<Vehicule> vehiculesLesPlusCouteux() {
+        List<Maintenance_Cout> maintenances = maintenanceCoutRepository.findAll();
+
+        // Calculer le coût total de maintenance pour chaque véhicule
+        Map<Long, Double> vehiculeCouts = new HashMap<>();
+        for (Maintenance_Cout maintenance : maintenances) {
+            vehiculeCouts.put(
+                    maintenance.getId_vehicule(),
+                    vehiculeCouts.getOrDefault(maintenance.getId_vehicule(), 0.0) + maintenance.getCout()
+            );
+        }
+
+        // Trier les véhicules par coût total décroissant
+        List<Map.Entry<Long, Double>> sortedVehicules = vehiculeCouts.entrySet()
+                .stream()
+                .sorted((entry1, entry2) -> Double.compare(entry2.getValue(), entry1.getValue()))
+                .toList();
+
+        // Récupérer les détails des véhicules via le client Feign
+        return sortedVehicules.stream()
+                .map(entry -> vehiculeRestFeign.VehiculeById(entry.getKey()))
+                .toList();
+    }
+
 }
 
