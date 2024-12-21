@@ -32,7 +32,6 @@ public class API {
     private NotificationService notificationService;
 
 
-
     // Route pour obtenir tous les véhicules
     @Operation(summary = "Get all vehicles", description = "Retrieve a list of all vehicles")
     @ApiResponse(responseCode = "200", description = "List of vehicles retrieved successfully")
