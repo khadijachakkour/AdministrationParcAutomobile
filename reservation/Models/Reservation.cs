@@ -15,5 +15,10 @@ namespace reservation.Models
         
         // Optionnellement, si vous voulez garder un champ Email directement dans la réservation
         public string Email { get; set; }  // Email de l'utilisateur associé à la réservation
+        
+        public string Marque { get; set; }
+        public string Modele { get; set; }
+        public string TypeVehicule { get; set; }
+        public string Couleur { get; set; }
     }
 }

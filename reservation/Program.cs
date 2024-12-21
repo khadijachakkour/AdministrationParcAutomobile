@@ -30,6 +30,12 @@ builder.Services.AddHttpClient<UserService>(client =>
     client.BaseAddress = new Uri("http://localhost:8090"); // URL de base pour le service utilisateur
 });
 
+// Configuration de HttpClient pour le VehicleService
+builder.Services.AddHttpClient<VehicleService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:8081"); // URL de base pour le service des véhicules (remplacez par l'URL appropriée)
+});
+
 // Ajout des contrôleurs (permet l'affichage des endpoints dans Swagger)
 builder.Services.AddControllers();
 

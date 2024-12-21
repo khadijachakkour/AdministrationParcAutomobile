@@ -11,12 +11,14 @@ namespace reservation.Services
     {
         private readonly IReservationRepository _reservationRepository;
         private readonly UserService _userService; // Ajouter une dépendance vers UserService
+        private readonly VehicleService _vehicleService; // Dépendance vers VehicleService
 
         // Ajouter UserService dans le constructeur
-        public ReservationService(IReservationRepository reservationRepository, UserService userService)
+        public ReservationService(IReservationRepository reservationRepository, UserService userService , VehicleService vehicleService)
         {
             _reservationRepository = reservationRepository;
             _userService = userService;
+            _vehicleService = vehicleService; // Injection du VehicleService
         }
 
         // Méthode pour créer une réservation avec l'ID utilisateur obtenu par l'email
@@ -25,8 +27,18 @@ namespace reservation.Services
             // Récupérer l'ID utilisateur par email (assurez-vous que GetUserIdByEmailAsync renvoie un int)
             var userId = await _userService.GetUserIdByEmailAsync(reservation.Email);
             reservation.UserId = userId; // Assigner l'ID utilisateur à la réservation
+            
+            // Recherche du véhicule via l'API des véhicules
+            var vehicle = await _vehicleService.SearchVehicleAsync(reservation.Marque, reservation.Modele, reservation.TypeVehicule, reservation.Couleur);
 
+            if (vehicle == null)
+            {
+                throw new Exception("Aucun véhicule correspondant trouvé.");
+            }
+            // Assigner le véhicule à la réservation
+            reservation.VehicleId = vehicle.id;
             reservation.Status = "En attente"; // Le statut par défaut
+            // Créer la réservation
             return await _reservationRepository.CreateReservationAsync(reservation);
         }
 
