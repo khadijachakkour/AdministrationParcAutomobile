@@ -18,35 +18,37 @@ namespace reservation.Repositories
 
         public async Task<Models.Reservation> CreateReservationAsync(Models.Reservation reservation)
         {
-            // Insertion de la réservation, MongoDB générera un ObjectId automatiquement
+            // Insertion de la réservation dans la base de données MongoDB
             await _reservations.InsertOneAsync(reservation);
             return reservation;
         }
 
-        // Modification pour accepter un ObjectId
+        // Méthode pour obtenir une réservation par son ObjectId
         public async Task<Models.Reservation> GetReservationByIdAsync(ObjectId id)
         {
+            // Recherche de la réservation par son ObjectId
             return await _reservations.Find(r => r.Id == id).FirstOrDefaultAsync();
         }
 
-        // Modification pour accepter un ObjectId
+        // Méthode pour obtenir toutes les réservations
         public async Task<IEnumerable<Models.Reservation>> GetAllReservationsAsync()
         {
+            // Retourner toutes les réservations
             return await _reservations.Find(r => true).ToListAsync();
         }
 
-        // Modification pour accepter un ObjectId
+        // Méthode pour mettre à jour une réservation
         public async Task<Models.Reservation> UpdateReservationAsync(Models.Reservation reservation)
         {
-            // Mise à jour de la réservation
+            // Mise à jour de la réservation dans la base de données
             var result = await _reservations.ReplaceOneAsync(r => r.Id == reservation.Id, reservation);
             return result.IsAcknowledged ? reservation : null;
         }
 
-        // Modification pour accepter un ObjectId
+        // Méthode pour supprimer une réservation
         public async Task<bool> DeleteReservationAsync(ObjectId id)
         {
-            // Suppression de la réservation
+            // Suppression de la réservation par son ObjectId
             var result = await _reservations.DeleteOneAsync(r => r.Id == id);
             return result.DeletedCount > 0;
         }
