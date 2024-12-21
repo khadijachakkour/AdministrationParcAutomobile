@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using reservation.Services;
+using MongoDB.Bson; // Ajouter la dépendance MongoDB pour ObjectId
 
 namespace reservation.Controllers
 {
@@ -22,10 +23,14 @@ namespace reservation.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Reservation>> GetReservationById(int id)
+        public async Task<ActionResult<Models.Reservation>> GetReservationById(string id)
         {
-            var reservation = await _reservationService.GetReservationByIdAsync(id);
+            if (!ObjectId.TryParse(id, out var objectId)) // Convertir string à ObjectId
+            {
+                return BadRequest("ID invalide.");
+            }
 
+            var reservation = await _reservationService.GetReservationByIdAsync(objectId);
             if (reservation == null)
             {
                 return NotFound();
@@ -33,12 +38,47 @@ namespace reservation.Controllers
 
             return Ok(reservation);
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Reservation>>> GetAllReservations()
         {
             var reservations = await _reservationService.GetAllReservationsAsync();
             return Ok(reservations);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Models.Reservation>> UpdateReservation(string id, Models.Reservation reservation)
+        {
+            if (!ObjectId.TryParse(id, out var objectId)) // Convertir string à ObjectId
+            {
+                return BadRequest("ID invalide.");
+            }
+
+            var updatedReservation = await _reservationService.UpdateReservationAsync(objectId, reservation);
+            if (updatedReservation == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedReservation);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteReservation(string id, [FromQuery] DateTime cancellationTime)
+        {
+            if (!ObjectId.TryParse(id, out var objectId)) // Convertir string à ObjectId
+            {
+                return BadRequest("ID invalide.");
+            }
+
+            var result = await _reservationService.DeleteReservationAsync(objectId, cancellationTime);
+
+            if (!result)
+            {
+                return BadRequest("Impossible d'annuler cette réservation.");
+            }
+
+            return NoContent();
         }
     }
 }
