@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuration de la base de données MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/notification_db'  # Remplacez avec vos infos de connexion MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/notification_db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
