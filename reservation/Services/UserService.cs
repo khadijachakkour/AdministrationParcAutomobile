@@ -1,38 +1,40 @@
-﻿using System;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
+using reservation.Interface;
 
 namespace reservation.Services
 {
-    /// <summary>
-    /// Service pour interagir avec l'API utilisateur.
-    /// </summary>
-    public class UserService
+    // Implémentation de l'interface IUserService par la classe UserService
+    public class UserService : IUserService
     {
         private readonly HttpClient _httpClient;
+        
+        /*
+         * ajouter un constructeur userservice sans parametre
+         */
 
-        /// <summary>
-        /// Constructeur pour injecter le HttpClient.
-        /// </summary>
-        /// <param name="httpClient">Client HTTP configuré pour effectuer les appels à l'API utilisateur.</param>
+        // Constructeur sans paramètre pour initialiser l'HttpClient
+        public UserService()
+        {
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:8090") // Assurez-vous que l'URL correspond à votre API
+            };
+        }
+
+        // Constructeur pour injecter un HttpClient déjà configuré
         public UserService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("http://localhost:8090"); // URL de base de l'API utilisateur
         }
 
-        /// <summary>
-        /// Récupère l'ID utilisateur à partir de l'adresse e-mail.
-        /// </summary>
-        /// <param name="email">Adresse e-mail de l'utilisateur.</param>
-        /// <returns>ID utilisateur sous forme d'entier.</returns>
-        public async Task<int> GetUserIdByEmailAsync(string email)
+        // Méthode pour récupérer l'ID utilisateur par email
+        public virtual async Task<int> GetUserIdByEmailAsync(string email)
         {
             try
             {
                 var response = await _httpClient.GetAsync($"/api/users/email/{email}");
-        
+
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Erreur HTTP : {response.StatusCode}, lors de la récupération de l'utilisateur.");
@@ -73,14 +75,10 @@ namespace reservation.Services
         }
     }
 
-    /// <summary>
-    /// Classe DTO pour représenter la réponse de l'API utilisateur.
-    /// </summary>
+    // Classe DTO pour représenter la réponse de l'API utilisateur.
     public class UserResponse
     {
         public string id { get; set; }
         public string Email { get; set; }
-       // public string Password { get; set; }  // Si vous avez besoin du mot de passe
-        //public string Scope { get; set; }    // Si vous avez besoin du scope
     }
 }

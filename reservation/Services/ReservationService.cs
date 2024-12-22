@@ -12,6 +12,9 @@ namespace reservation.Services
         private readonly IReservationRepository _reservationRepository;
         private readonly UserService _userService; // Ajouter une dépendance vers UserService
         private readonly VehicleService _vehicleService; // Dépendance vers VehicleService
+        
+        // Constructeur sans paramètre (nécessaire pour Moq)
+        public ReservationService() { }
 
         // Ajouter UserService dans le constructeur
         public ReservationService(IReservationRepository reservationRepository, UserService userService , VehicleService vehicleService)

@@ -9,19 +9,28 @@ namespace reservation.Services
     /// <summary>
     /// Service pour interagir avec l'API des véhicules.
     /// </summary>
-    public class VehicleService
+     public class VehicleService
     {
         private readonly HttpClient _httpClient;
+        
+        public VehicleService() { }
 
         /// <summary>
         /// Constructeur pour injecter le HttpClient.
         /// </summary>
         /// <param name="httpClient">Client HTTP configuré pour effectuer les appels à l'API des véhicules.</param>
-        public VehicleService(HttpClient httpClient)
+       /* public VehicleService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("http://localhost:8081"); // URL de base de l'API des véhicules
         }
+        */
+       public VehicleService(HttpClient httpClient)
+       {
+           _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+           _httpClient.BaseAddress = new Uri("http://localhost:8081"); // URL de base de l'API des véhicules
+       }
+
 
         /// <summary>
         /// Recherche un véhicule par ses critères (marque, modèle, type, couleur).
