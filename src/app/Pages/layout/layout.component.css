@@ -1,0 +1,106 @@
+/* Style global du tableau de bord */
+.dashboard {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Conteneur principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header du Dashboard */
+header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+header h1 {
+    color: #333;
+    font-size: 36px;
+}
+
+header p {
+    color: #666;
+    font-size: 18px;
+}
+
+/* Style des boutons */
+.btn-dashboard {
+    background-color: #4CAF50; /* Couleur de fond verte */
+    color: white; /* Texte blanc */
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 16px; /* Taille du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Bords arrondis */
+    cursor: pointer; /* Curseur pointeur sur survol */
+    margin-top: 20px; /* Marge pour espacer les boutons */
+    transition: background-color 0.3s ease; /* Transition au survol */
+    text-decoration: none; /* Pas de soulignement pour les liens */
+}
+/* Effet de survol pour les boutons */
+.btn-dashboard:hover {
+    background-color: #45a049; /* Couleur plus foncée au survol */
+}
+
+/* Sections du Dashboard */
+.dashboard-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    padding: 30px;
+}
+
+.dashboard-section .section-header {
+    flex-basis: 30%;
+    padding-right: 20px;
+}
+
+.dashboard-section .section-header h2 {
+    color: #2d3e50;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.dashboard-section .section-header p {
+    color: #777;
+    font-size: 16px;
+}
+
+.dashboard-section .section-content {
+    flex-basis: 60%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.dashboard-section .section-image {
+    width: 250px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.dashboard-section .section-description {
+    max-width: 600px;
+    color: #555;
+    font-size: 16px;
+}
+
+.dashboard-section .section-description p {
+    line-height: 1.6;
+}
+
+/* Ajout d'un effet de survol pour les sections */
+.dashboard-section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}

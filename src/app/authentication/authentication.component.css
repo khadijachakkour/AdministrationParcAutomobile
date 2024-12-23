@@ -1,0 +1,96 @@
+/* Style général de la page */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fc; /* Couleur de fond douce pour la page */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style de la section formulaire */
+form {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+/* Style du titre */
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Style des champs du formulaire */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+/* Style du bouton de connexion */
+button.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Style du lien d'inscription */
+a.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c757d;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  color: white;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+a.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Alert message for failed login */
+.alert {
+  padding: 15px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-top: 15px;
+}

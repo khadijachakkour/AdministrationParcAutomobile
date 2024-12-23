@@ -1,0 +1,78 @@
+/* Conteneur principal */
+.parc-dashboard-container {
+    background: #2c3e50; /* Fond sombre, typique d'un tableau de bord */
+    color: #ecf0f1; /* Texte clair */
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* En-tête */
+  .dashboard-header {
+    background: #34495e; /* Une couleur de fond pour l'en-tête */
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 2.5rem;
+    color: #3498db; /* Bleu lumineux pour imiter les lumières du tableau de bord */
+    margin: 0;
+  }
+  
+  /* Contenu principal */
+  .dashboard-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+  }
+  
+  /* Cercle du tableau de bord */
+  .dashboard-circle {
+    background: #2980b9; /* Bleu profond pour ressembler à un compteur de vitesse ou une jauge */
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .dashboard-circle p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ecf0f1;
+    margin: 0;
+  }
+  
+  /* Message de statut */
+  .status {
+    font-size: 1.2rem;
+    color: #ecf0f1;
+    margin-top: 20px;
+  }
+  
+  /* Pied de page */
+  .dashboard-footer {
+    background: #34495e;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+  }
+  
+  .dashboard-footer p {
+    font-size: 1rem;
+    color: #bdc3c7; /* Couleur de texte plus claire pour le pied de page */
+    margin: 0;
+  }
+  

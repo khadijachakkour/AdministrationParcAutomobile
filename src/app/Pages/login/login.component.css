@@ -1,0 +1,166 @@
+/* Container principal */
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f6f9;
+}
+
+/* Conteneur de la boîte de connexion */
+.container {
+    max-width: 400px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+/* Style du titre */
+h2 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+/* Style pour les boutons */
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Bouton de connexion Google */
+#googleBtn {
+    background-color: #db4437;
+    color: #fff;
+    font-weight: bold;
+}
+
+#googleBtn:hover {
+    background-color: #c1351d;
+}
+
+/* Bouton Login */
+.btn {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+/* Conteneur de boutons d'actions supplémentaires */
+.button-container {
+    margin-top: 20px;
+}
+
+/* Boutons d'actions supplémentaires */
+.btn-action {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-action:hover {
+    background-color: #1976d2;
+}
+
+/* Ajout d'un style de texte au bas */
+p {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+/* Container principal */
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f6f9;
+}
+
+/* Conteneur de la boîte de connexion */
+.container {
+    max-width: 400px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+/* Style du titre */
+h2 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+/* Style pour les boutons */
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Bouton de connexion Google */
+#googleBtn {
+    background-color: #db4437;
+    color: #fff;
+    font-weight: bold;
+}
+
+#googleBtn:hover {
+    background-color: #c1351d;
+}
+
+/* Bouton Login */
+.btn {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+/* Conteneur de boutons d'actions supplémentaires */
+.button-container {
+    margin-top: 20px;
+}
+
+/* Boutons d'actions supplémentaires */
+.btn-action {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-action:hover {
+    background-color: #1976d2;
+}
+
+/* Ajout d'un style de texte au bas */
+p {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}

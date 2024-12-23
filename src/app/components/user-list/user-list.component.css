@@ -1,0 +1,41 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* Bleu clair pour le fond */
+    color: #333; /* Couleur du texte */
+  }
+  
+  h2 {
+    text-align: center;
+    color: #1e3a8a; /* Bleu foncé pour le titre */
+  }
+  
+  /* Style du tableau */
+  .user-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse; /* Pour éviter les doubles bordures */
+    background-color: #fff; /* Fond blanc pour le tableau */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd; /* Bordure légère */
+  }
+  
+  .user-table th {
+    background-color: #1e3a8a; /* Bleu foncé pour l'en-tête */
+    color: white; /* Texte blanc pour les en-têtes */
+  }
+  
+  .user-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Gris clair pour les lignes paires */
+  }
+  
+  .user-table tr:hover {
+    background-color: #e0f7fa; /* Bleu clair au survol */
+  }
+  
