@@ -1,68 +1,86 @@
-/* Styles globaux pour améliorer l'apparence */
+/* Styles globaux */
 body {
-    background-color: #f8f9fa; /* Couleur de fond douce */
-    font-family: 'Arial', sans-serif;
-  }
-  
-  form {
-    background-color: #ffffff; /* Fond blanc pour le formulaire */
-    padding: 20px;
-    border-radius: 8px; /* Coins arrondis */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre subtile */
-  }
-  
-  /* Styles pour les champs de saisie */
-  .form-control {
-    border: 1px solid #ced4da; /* Bordure claire par défaut */
-    transition: box-shadow 0.3s, border-color 0.3s;
-  }
-  
-  .form-control:focus {
-    border-color: #007bff; /* Bordure bleue lors du focus */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre bleue subtile */
-  }
-  
-  /* Styles pour les labels */
-  .form-label {
-    font-weight: bold;
-    color: #495057; /* Couleur de texte plus sombre */
-  }
-  
-  /* Bouton Submit */
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3; /* Couleur plus sombre au survol */
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Ombre accentuée */
-  }
-  
-  .btn-primary:disabled {
-    background-color: #6c757d; /* Couleur grisée si désactivé */
-    border-color: #6c757d;
-  }
-  
-  /* Messages d'erreur */
-  .invalid-feedback {
-    font-size: 0.875rem;
-    color: #dc3545; /* Rouge pour les erreurs */
-  }
-  
-  /* Espacement pour les messages d'erreur */
-  .is-invalid ~ .invalid-feedback {
-    margin-top: 4px;
-  }
-  
-  /* Optionnel : Style du select */
-  .form-select {
-    border: 1px solid #ced4da;
-  }
-  
-  .form-select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
+  background-color: #f4f7fa; /* Couleur de fond douce et neutre */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police moderne */
+}
+
+/* Formulaire */
+form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Champs de formulaire */
+.form-control {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+  outline: none;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Message d'erreur */
+.invalid-feedback {
+  font-size: 0.875rem;
+  color: #e74c3c;
+}
+
+.is-invalid ~ .invalid-feedback {
+  margin-top: 6px;
+}
+
+/* Sélection */
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.form-select:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+}
+
+/* Bouton Submit */
+.btn-primary {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #005bb5;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+}
+
+.btn-primary:disabled {
+  background-color: #b0c4de;
+  border-color: #b0c4de;
+}
+
+/* Espacement entre les éléments */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 800px;
+  padding: 20px;
+}

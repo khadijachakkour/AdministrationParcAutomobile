@@ -31,4 +31,27 @@ export class VehicleService {
   deleteVehicle(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  getAvailableVehicles(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/disponibles`);
+  }
+
+  updateVehicleStatus(id: number, status: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/statut`, null, {
+      params: { statut: status }
+    });
+  }
+
+  getStatistics(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/statistiques`);
+  }
+
+  filterVehicles(filters: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/filter`, { params: filters });
+  }
+
+  getVehicleStatistics(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/statistiques`);
+  }
+
+  
 }

@@ -7,6 +7,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 import { RouterModule } from '@angular/router';
 
+
+
+
 @NgModule({
   declarations: [
     VehicleListComponent,
@@ -16,7 +19,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [VehicleService]
 })

@@ -65,7 +65,41 @@
 }
 
 .search-container input:focus {
-  outline: none;
   border-color: #007bff;
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+}
+button.active {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-toggle {
+  border: 2px solid #007bff;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-toggle.active {
+  color: #fff;
+  background-color: #007bff;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.btn-toggle:hover {
+  color: #fff;
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.search-container .form-control {
+  font-size: 16px;
+  border-radius: 30px;
+  padding: 12px 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
