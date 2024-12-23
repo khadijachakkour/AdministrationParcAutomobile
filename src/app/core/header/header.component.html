@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-lg">
+  <div class="container-fluid">
+    <!-- Logo et Titre -->
+    <div>
+      <img src="assets/images/logo.png" alt="Logo">
+    </div>
+
+    <!-- Menu de navigation -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/vehicles" routerLinkActive="active">
+            <i class="fas fa-car"></i> Véhicules
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/add-vehicle" routerLinkActive="active">
+            <i class="fas fa-plus"></i> Ajouter un Véhicule
+          </a>
+
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/maintenance" routerLinkActive="active">
+            <i class="fas fa-tools"></i> Maintenance
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/dashboard" routerLinkActive="active">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </li>
+        <!-- Profil utilisateur -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle"></i> Profil
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cogs"></i> Paramètres</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      
+    </div>
+  </div>
+</nav>
+
+<!-- Contenu principal -->
+<div class="content-container">
+  <!-- Votre contenu ici -->
+</div>

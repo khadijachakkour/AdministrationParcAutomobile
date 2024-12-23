@@ -1,0 +1,38 @@
+<!-- Barre de recherche -->
+<div class="search-container">
+  <input type="search" placeholder="Rechercher un véhicule..." aria-label="Search">
+</div>
+<div class="container my-4" *ngIf="vehicles.length > 0; else noVehicles">
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let vehicle of vehicles">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">{{ vehicle.marque }} - {{ vehicle.modele }}</h5>
+            <span class="badge" [ngClass]="getStatutClass(vehicle.statut)">
+              {{ vehicle.statut }}
+            </span>
+          </div>
+          <p><strong>Type :</strong> {{ vehicle.typeVehicule }}</p>
+          <p><strong>Couleur :</strong> {{ vehicle.couleur }}</p>
+          <p><strong>Dernière Maintenance :</strong> {{ vehicle.dateDerniereMaintenance | date:'shortDate' }}</p>
+          <p><strong>Date d'Achat :</strong> {{ vehicle.dateAchat | date:'shortDate' }}</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-warning btn-sm" (click)="editVehicle(vehicle.id)" *ngIf="vehicle.id">
+              <i class="fas fa-edit"></i> Modifier
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteVehicle(vehicle.id)" *ngIf="vehicle.id">
+              <i class="fas fa-trash-alt"></i> Supprimer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noVehicles>
+  <div class="text-center my-5">
+    <p>Aucun véhicule trouvé.</p>
+  </div>
+</ng-template>

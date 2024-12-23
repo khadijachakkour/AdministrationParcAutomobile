@@ -1,0 +1,71 @@
+/* Container for vehicles */
+.vehicle-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Card styling */
+.card {
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge for vehicle status */
+.badge {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+.badge.disponible {
+  background-color: #e6ffed;
+  color: #28a745;
+}
+
+.badge.en-maintenance {
+  background-color: #fff4e5;
+  color: #ff9800;
+}
+
+.badge.reserve {
+  background-color: #ffe6e6;
+  color: #dc3545;
+}
+
+/* Center no vehicles message */
+.text-center {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+/* Barre de recherche */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+.search-container input {
+  width: 60%; /* Taille de la barre de recherche */
+  padding: 10px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  transition: box-shadow 0.3s ease;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+}

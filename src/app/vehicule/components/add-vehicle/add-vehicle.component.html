@@ -1,0 +1,104 @@
+<form [formGroup]="vehiculeForm" (ngSubmit)="onSubmit()" class="container mt-4">
+  <div class="mb-3">
+    <label for="marque" class="form-label">Marque</label>
+    <input
+      id="marque"
+      formControlName="marque"
+      type="text"
+      class="form-control"
+      [ngClass]="{'is-invalid': f['marque'].invalid && (f['marque'].touched || submitted)}"
+    />
+    <div *ngIf="f['marque'].invalid && (f['marque'].touched || submitted)" class="invalid-feedback">
+      Marque is required
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="modele" class="form-label">Modèle</label>
+    <input
+      id="modele"
+      formControlName="modele"
+      type="text"
+      class="form-control"
+      [ngClass]="{'is-invalid': f['modele'].invalid && (f['modele'].touched || submitted)}"
+    />
+    <div *ngIf="f['modele'].invalid && (f['modele'].touched || submitted)" class="invalid-feedback">
+      Modèle is required
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="typeVehicule" class="form-label">Type</label>
+    <input
+      id="typeVehicule"
+      formControlName="typeVehicule"
+      type="text"
+      class="form-control"
+      [ngClass]="{'is-invalid': f['typeVehicule'].invalid && (f['typeVehicule'].touched || submitted)}"
+    />
+    <div *ngIf="f['typeVehicule'].invalid && (f['typeVehicule'].touched || submitted)" class="invalid-feedback">
+      Type is required
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="couleur" class="form-label">Couleur</label>
+    <input
+      id="couleur"
+      formControlName="couleur"
+      type="text"
+      class="form-control"
+      [ngClass]="{'is-invalid': f['couleur'].invalid && (f['couleur'].touched || submitted)}"
+    />
+    <div *ngIf="f['couleur'].invalid && (f['couleur'].touched || submitted)" class="invalid-feedback">
+      Couleur is required
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="dateDerniereMaintenance" class="form-label">Date Dernière Maintenance</label>
+    <input
+      id="dateDerniereMaintenance"
+      type="date"
+      formControlName="dateDerniereMaintenance"
+      class="form-control"
+      [ngClass]="{'is-invalid': f['dateDerniereMaintenance'].invalid && (f['dateDerniereMaintenance'].touched || submitted)}"
+    />
+    <div *ngIf="f['dateDerniereMaintenance'].invalid && (f['dateDerniereMaintenance'].touched || submitted)" class="invalid-feedback">
+      Date Dernière Maintenance is required
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="dateAchat" class="form-label">Date d'Achat</label>
+    <input
+      id="dateAchat"
+      type="date"
+      formControlName="dateAchat"
+      class="form-control"
+      [ngClass]="{'is-invalid': f['dateAchat'].invalid && (f['dateAchat'].touched || submitted)}"
+    />
+    <div *ngIf="f['dateAchat'].invalid && (f['dateAchat'].touched || submitted)" class="invalid-feedback">
+      Date d'Achat is required
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="statut" class="form-label">Statut</label>
+    <select
+      id="statut"
+      formControlName="statut"
+      class="form-select"
+      [ngClass]="{'is-invalid': f['statut'].invalid && (f['statut'].touched || submitted)}"
+    >
+      <option value="DISPONIBLE">Disponible</option>
+      <option value="EN_MAINTENANCE">En Maintenance</option>
+      <option value="RESERVE">Réservé</option>
+    </select>
+    <div *ngIf="f['statut'].invalid && (f['statut'].touched || submitted)" class="invalid-feedback">
+      Statut is required
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="vehiculeForm.invalid">Submit</button>
+</form>
