@@ -37,7 +37,6 @@ public class Vehicule {
     @NotNull(message = "La date d'achat est obligatoire")
     private LocalDate dateAchat;
 
-
     @NotNull(message = "Le statut est obligatoire")
     @Enumerated(EnumType.STRING)  // Utilisation de l'énumération comme chaîne de caractères
     private Statut statut;
@@ -48,5 +47,9 @@ public class Vehicule {
         DISPONIBLE,
         EN_MAINTENANCE,
         RESERVE
+
+
+
+
     }
 }

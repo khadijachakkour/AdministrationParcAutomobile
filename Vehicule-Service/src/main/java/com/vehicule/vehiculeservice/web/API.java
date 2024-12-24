@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -84,6 +83,19 @@ public class API {
     @PutMapping("/{id}")
     public ResponseEntity<Vehicule> updateVehicule(@PathVariable Long id, @Valid @RequestBody Vehicule vehicule) {
         Vehicule updatedVehicule = vehiculeService.UpdateVehicule(id, vehicule);
+        // Si le véhicule devient disponible, envoyer une notification
+        if (updatedVehicule.getStatut() == Vehicule.Statut.DISPONIBLE) {
+            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais disponible.";
+            notificationService.sendUserNotification(message);
+        }
+        if (updatedVehicule.getStatut() == Vehicule.Statut.RESERVE) {
+            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais réservé.";
+            notificationService.sendUserNotification(message);
+        }
+        if (updatedVehicule.getStatut() == Vehicule.Statut.EN_MAINTENANCE) {
+            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais en maintenance.";
+            notificationService.sendUserNotification(message);
+        }
         return ResponseEntity.ok(updatedVehicule);
 
     }
@@ -145,19 +157,9 @@ public class API {
         }
 
         Vehicule updatedVehicule = vehiculeService.mettreAJourStatut(id, statut);
-        // Si le véhicule devient disponible, envoyer une notification
-        if (updatedVehicule.getStatut() == Vehicule.Statut.DISPONIBLE) {
-            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais disponible.";
-            notificationService.sendUserNotification(message);
-        }
-        if (updatedVehicule.getStatut() == Vehicule.Statut.RESERVE) {
-            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais réservé.";
-            notificationService.sendUserNotification(message);
-        }
-        if (updatedVehicule.getStatut() == Vehicule.Statut.EN_MAINTENANCE) {
-            String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais en maintenance.";
-            notificationService.sendUserNotification(message);
-        }
+        // Notification selon le statut mis à jour
+        String message = "Le véhicule avec l'ID " + vehicule.getId() + " est désormais " + statut.name() + ".";
+        notificationService.sendUserNotification(message);
 
         return ResponseEntity.ok(updatedVehicule);
     }
@@ -218,5 +220,12 @@ public class API {
                 marque, modele, typeVehicule, statut,dateAchat, dateDerniereMaintenance, couleur);
 
         return ResponseEntity.ok(filteredVehicles);
+    }
+
+
+    @PutMapping("/{id}/statut")
+    public ResponseEntity<Vehicule> updateStatut(@PathVariable("id") Long id,@RequestBody Vehicule.Statut statut) {
+        Vehicule updatedVehicule = vehiculeService.updateStatut(id, statut);
+        return ResponseEntity.ok(updatedVehicule);
     }
 }

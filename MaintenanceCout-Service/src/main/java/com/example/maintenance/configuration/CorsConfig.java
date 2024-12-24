@@ -1,4 +1,4 @@
-package com.vehicule.vehiculeservice.configuration;
+package com.example.maintenance.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/v1/**")
                         .allowedOrigins("http://localhost:4200") // Remplacez par l'URL de votre frontend
-                        .allowedMethods("GET", "POST", "PUT", "DELETE","PATCH","OPTIONS")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }

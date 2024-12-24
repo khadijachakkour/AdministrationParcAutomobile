@@ -33,21 +33,11 @@ public class MaintenanceCoutService {
     private MaintenanceCoutRepository maintenanceCoutRepository;
     @Autowired
     private VehiculeRestFeign vehiculeRestFeign;
+    public Maintenance_Cout enregistrerMaintenance(Maintenance_Cout maintenance) {
+        vehiculeRestFeign.updateStatut(maintenance.getId_vehicule(), Vehicule.Statut.EN_MAINTENANCE);
 
-    // Méthode pour enregistrer une maintenance
-    public Maintenance_Cout enregistrerMaintenance(Maintenance_Cout maintenance_cout) {
-        // Vérification si le véhicule existe
-        try {
-            Vehicule vehicule = vehiculeRestFeign.VehiculeById(maintenance_cout.getId_vehicule());
-            if (vehicule == null) {
-                throw new IllegalArgumentException("Vehicle with ID " + maintenance_cout.getId_vehicule() + " does not exist.");
-            }
-        } catch (FeignException.NotFound e) {
-            throw new IllegalArgumentException("Vehicle with ID " + maintenance_cout.getId_vehicule() + " does not exist.");
-        }
-
-        // Enregistrer la maintenance si le véhicule existe
-        return maintenanceCoutRepository.save(maintenance_cout);
+        // Enregistrer la maintenance
+        return maintenanceCoutRepository.save(maintenance);
     }
 
 

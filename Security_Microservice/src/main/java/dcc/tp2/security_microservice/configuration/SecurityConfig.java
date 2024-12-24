@@ -27,10 +27,11 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig  {
 
 
     private PasswordEncoder passwordEncoder;
@@ -51,6 +52,8 @@ public class SecurityConfig {
         daoAuthenticationProvider.setUserDetailsService(userDetailService);
         return  new ProviderManager(daoAuthenticationProvider);
     }
+
+
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception{
 

@@ -36,22 +36,10 @@ public class API {
     // Endpoint pour enregistrer une maintenance
     @Operation(summary = "Enregistrer une maintenance", description = "Ajoute une nouvelle maintenance pour un véhicule donné.")
     @ApiResponse(responseCode = "200", description = "Maintenance enregistrée avec succès.")
-    @PostMapping()
-    public ResponseEntity<String> enregistrerMaintenance(@RequestBody Maintenance_Cout maintenance_cout) {
-        try {
-            Maintenance_Cout m = maintenanceCoutService.enregistrerMaintenance(maintenance_cout);
-            // Envoyer une notification
-            String message = "Nouvelle maintenance enregistrée pour le véhicule ID : " + m.getId_vehicule();
-            notificationService.sendUserNotification(message);
-
-            return ResponseEntity.ok("Maintenance bien enregistrée et notification envoyée.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'enregistrement de la maintenance.");
-        }
+    @PostMapping
+    public Maintenance_Cout enregistrerMaintenance(@RequestBody Maintenance_Cout maintenance) {
+        return maintenanceCoutService.enregistrerMaintenance(maintenance);
     }
-
     // Endpoint pour consulter le coût total des maintenances d'un véhicule
     @Operation(summary = "Consulter le coût total des maintenances", description = "Renvoie le coût total des maintenances pour un véhicule spécifique.")
     @ApiResponse(responseCode = "200", description = "Coût total des maintenances récupéré avec succès.")
@@ -84,13 +72,13 @@ public class API {
     @Operation(summary = "Supprimer une maintenance", description = "Supprime une maintenance donnée par ID.")
     @ApiResponse(responseCode = "200", description = "Maintenance supprimée avec succès.")
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteMaintenance(@PathVariable Long id){
+    public ResponseEntity<Void> deleteMaintenance(@PathVariable Long id){
 
         maintenanceCoutService.DeleteMaintenance(id);
         // Envoyer une notification
         String message = "Maintenance supprimée avec l'ID : " + id;
         notificationService.sendUserNotification(message);
-        return ResponseEntity.ok("Maintenance supprimée et notification envoyée.");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

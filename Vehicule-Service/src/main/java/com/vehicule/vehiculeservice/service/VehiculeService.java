@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -65,11 +68,12 @@ public class VehiculeService {
 
     // Mettre à jour la disponibilité d'un véhicule
     public Vehicule mettreAJourStatut(Long id, Vehicule.Statut statut) {
-        Vehicule vehicule = vehiculeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Véhicule non trouvé"));
-        vehicule.setStatut(statut);
-        return vehiculeRepository.save(vehicule);
+        return vehiculeRepository.findById(id).map(v -> {
+            v.setStatut(statut);  // Mise à jour du statut
+            return vehiculeRepository.save(v);
+        }).orElseThrow(() -> new RuntimeException("Véhicule non trouvé"));
     }
+
 
     // Vérifier la disponibilité d'un véhicule
     public Boolean verifierDisponibilite(Long id) {
@@ -95,7 +99,7 @@ public class VehiculeService {
         statistiques.put("total", total);
         statistiques.put("disponibles", disponibles);
         statistiques.put("enMaintenance", enMaintenance);
-        statistiques.put("reservés", reserves);
+        statistiques.put("reserves", reserves);
 
         return statistiques;
     }
@@ -149,4 +153,18 @@ public class VehiculeService {
         // Si aucun critère n'est spécifié, retourne tout
         return vehiculeRepository.findAll();
     }
+
+
+    public Vehicule updateStatut(Long id, Vehicule.Statut statut) {
+        // Trouver le véhicule par son ID
+        Vehicule vehicule = vehiculeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Véhicule introuvable avec l'ID: " + id));
+
+        // Mettre à jour le statut du véhicule
+        vehicule.setStatut(statut);
+
+        // Sauvegarder le véhicule mis à jour dans la base de données
+        return vehiculeRepository.save(vehicule);
+    }
+
 }
