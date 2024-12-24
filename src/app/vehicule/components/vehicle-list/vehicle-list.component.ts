@@ -106,7 +106,7 @@ searchVehicles(): void {
   }
 
   editVehicle(vehicleId: number): void {
-    this.router.navigate(['/edit-vehicle', vehicleId]);
+    this.router.navigate([`/edit-vehicle/${vehicleId}`]);  
 
   }
 }

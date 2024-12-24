@@ -1,0 +1,15 @@
+<form (ngSubmit)="onSubmit()" #maintenanceForm="ngForm">
+  <div>
+    <label for="idVehicule">ID Véhicule:</label>
+    <input type="text" id="idVehicule" [(ngModel)]="maintenance.id_vehicule" name="id_vehicule " required />
+  </div>
+  <div>
+    <label for="cout">Coût:</label>
+    <input type="number" id="cout" [(ngModel)]="maintenance.cout" name="cout" required />
+  </div>
+  <div>
+    <label for="date">Date:</label>
+    <input type="date" id="date" [(ngModel)]="maintenance.date" name="date" required />
+  </div>
+  <button type="submit">Ajouter Maintenance</button>
+</form>

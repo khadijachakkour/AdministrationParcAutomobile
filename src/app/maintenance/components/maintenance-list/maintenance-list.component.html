@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Liste des Maintenances</h2>
+  <table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Véhicule</th>
+        <th>Coût</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let maintenance of maintenances">
+        <td>
+          <ng-container *ngIf="maintenance.vehicule; else noVehicule">
+            <strong>{{ maintenance.vehicule.marque }} {{ maintenance.vehicule.modele }}</strong><br />
+            <span class="text-muted">{{ maintenance.vehicule.typeVehicule }}</span>
+          </ng-container>
+          <ng-template #noVehicule>Non disponible</ng-template>
+        </td>
+        <td>{{ maintenance.cout | currency: 'EUR' }}</td>
+        <td>{{ maintenance.date | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <button class="btn btn-info btn-sm" (click)="editMaintenance(maintenance.id)">
+            <i class="fa fa-pencil-alt"></i> Modifier
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="deleteMaintenance(maintenance.id)">
+            <i class="fa fa-trash"></i> Supprimer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-vehicle',
   standalone:true,
   templateUrl: './edit-vehicle.component.html',
   styleUrls: ['./edit-vehicle.component.css'],
-  imports:[FormsModule]
+  imports:[FormsModule,RouterLink,CommonModule]
 })
 export class EditVehicleComponent implements OnInit {
   vehicle: Vehicle = {} as Vehicle;

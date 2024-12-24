@@ -1,0 +1,34 @@
+<div class="container mt-4" *ngIf="maintenance">
+    <h2>Modifier la Maintenance</h2>
+    <form (ngSubmit)="updateMaintenance()">
+      <div class="form-group">
+        <label for="cout">Coût</label>
+        <input
+          type="number"
+          id="cout"
+          [(ngModel)]="maintenance.cout"
+          name="cout"
+          class="form-control"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input
+          type="date"
+          id="date"
+          [(ngModel)]="maintenance.date"
+          name="date"
+          class="form-control"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
+  </div>
+  
+  <!-- Message de chargement si maintenance est undefined -->
+  <div *ngIf="!maintenance">
+    <p>Chargement des informations de maintenance...</p>
+  </div>
+  
