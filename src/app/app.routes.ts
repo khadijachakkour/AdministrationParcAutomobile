@@ -7,6 +7,8 @@ import { ListMaintenanceComponent } from './maintenance/components/maintenance-l
 import { EditMaintenanceComponent } from './maintenance/components/edit-maintenance/edit-maintenance.component';
 import { EditVehicleComponent } from './vehicule/components/edit-vehicle/edit-vehicle.component';
 import { AddMaintenanceComponent } from './maintenance/components/add-maintenance/add-maintenance.component';
+import { RapportMaintenanceComponent } from './maintenance/components/rapport-maintenance/rapport-maintenance.component';
+import { GraphiqueComponent } from './maintenance/components/graphique/graphique.component';
 
 
 export const routes: Routes = [
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: 'add-vehicle', component: AddVehicleComponent },
   { path: 'add-maintenance', component: AddMaintenanceComponent },
   { path: 'maintenances', component: ListMaintenanceComponent },
+  { path: 'Rapport', component: RapportMaintenanceComponent },
+  { path: 'graphique/:idVehicule', component: GraphiqueComponent },
   { path: '**', component: PageNotFoundComponent}
 
 ];

@@ -1,0 +1,10 @@
+<div *ngIf="imageUrl; else loading">
+  <h2>Graphique de Maintenance pour le véhicule ID : {{ idVehicule }}</h2>
+  <img [src]="imageUrl" alt="Graphique de Maintenance" class="img-fluid"/>
+</div>
+
+<ng-template #loading>
+  <div class="text-center">
+    <p>Chargement du graphique...</p>
+  </div>
+</ng-template>

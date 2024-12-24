@@ -50,6 +50,10 @@
             <button class="btn btn-danger btn-sm" (click)="deleteVehicle(vehicle.id)" *ngIf="vehicle.id">
               <i class="fas fa-trash-alt"></i> Supprimer
             </button>
+            <!-- Lien pour voir le graphique -->
+            <button class="btn btn-info btn-sm" [routerLink]="['/graphique', vehicle.id]">
+              <i class="fas fa-chart-line"></i> Voir le graphique
+            </button>
           </div>
         </div>
       </div>

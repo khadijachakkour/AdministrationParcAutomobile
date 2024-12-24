@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MaintenanceCout } from '../models/maintenance-cout';
 import { Vehicule } from '../models/vehicule';
@@ -40,12 +40,20 @@ export class MaintenanceService {
     return this.http.put<MaintenanceCout>(`${this.apiUrl}/${id}`, data);
   }
 
-  generateReport(): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/rapport-pdf`, { responseType: 'blob' });
+  // Méthode pour générer et télécharger le rapport en PDF
+  genererRapportPdf(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/rapport-pdf`, {
+      responseType: 'blob', // Nous attendons une réponse sous forme de Blob (fichier)
+      headers: new HttpHeaders({
+        'Accept': 'application/pdf'
+      })
+    });
   }
 
-  generateGraph(idVehicule: number): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/graphique/${idVehicule}`, { responseType: 'blob' });
+   // Méthode pour récupérer le graphique
+   getGraph(idVehicule: number): Observable<Blob> {
+    const url = `${this.apiUrl}/graphique/${idVehicule}`;
+    return this.http.get(url, { responseType: 'blob' });
   }
 
   obtenirStatistiques(): Observable<any> {

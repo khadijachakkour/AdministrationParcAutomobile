@@ -12,7 +12,7 @@ import { ListMaintenanceComponent } from './components/maintenance-list/maintena
     CommonModule,
     MaintenanceModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class MaintenanceModule { }
