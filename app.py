@@ -10,7 +10,7 @@ CORS(app)
 Swagger(app)  # Initialiser Flasgger
 
 # Configuration de la base de données MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/notification_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@mysql-notification/notification_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -109,4 +109,4 @@ def get_notifications():
 
 # Démarrage de l'application
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5010, debug=True)
