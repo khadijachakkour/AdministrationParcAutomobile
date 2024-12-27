@@ -1,0 +1,75 @@
+<div>
+    <h2>Nouvelle réservation</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label>Email:</label>
+        <input [(ngModel)]="newReservation.email" name="email" type="email" required />
+      </div>
+      <div>
+        <label>Marque:</label>
+        <input [(ngModel)]="newReservation.marque" name="marque" type="text" required />
+      </div>
+      <div>
+        <label>Modèle:</label>
+        <input [(ngModel)]="newReservation.modele" name="modele" type="text" required />
+      </div>
+      <div>
+        <label>Type Véhicule:</label>
+        <select [(ngModel)]="newReservation.typeVehicule" name="typeVehicule" required>
+          <option value="Voiture">Voiture</option>
+          <option value="Camion">Camion</option>
+          <option value="Moto">Moto</option>
+        </select>
+      </div>
+      <div>
+        <label>Couleur:</label>
+        <input [(ngModel)]="newReservation.couleur" name="couleur" type="text" required />
+      </div>
+      <div>
+        <label>Date de réservation:</label>
+        <input [(ngModel)]="newReservation.reservationDate" name="reservationDate" type="date" required />
+      </div>
+      <button type="submit">Créer Réservation</button>
+    </form>
+  </div>
+  
+  <!-- Tableau pour afficher les réservations existantes -->
+  <div *ngIf="reservations.length > 0; else noReservations">
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Marque</th>
+          <th>Modèle</th>
+          <th>Type de véhicule</th>
+          <th>Couleur</th>
+          <th>Date de réservation</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.email }}</td>
+          <td>{{ reservation.marque }}</td>
+          <td>{{ reservation.modele }}</td>
+          <td>{{ reservation.typeVehicule }}</td>
+          <td>{{ reservation.couleur }}</td>
+          <td>{{ reservation.reservationDate | date: 'short' }}</td>
+          <td>{{ reservation.status }}</td>
+          <td>
+            <button (click)="reservation.id !== undefined && reservation.id !== null ? onCancel(reservation.id) : null">
+                Annuler
+              </button>
+              
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-template #noReservations>
+    <p>Aucune réservation trouvée.</p>
+  </ng-template>
+  

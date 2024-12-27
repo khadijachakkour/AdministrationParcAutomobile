@@ -5,6 +5,9 @@ import { UserService } from './services/user.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { ReservationService } from './Reservation/reservation.service';
+import { ReservationfrontService } from './FrontReservation/reservationfront.service';
+
 
 @Component({
   selector: 'app-root',
@@ -15,7 +18,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule,
   ],
-  providers: [UserService], 
+  providers: [UserService, ReservationService, ReservationfrontService], 
 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'] // Attention, c'est styleUrls avec un "s"

@@ -1,0 +1,122 @@
+<!-- 
+<div class="container mt-5">
+    <h1>Liste des Réservations</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Email</th>
+          <th>Marque</th>
+          <th>Modèle</th>
+          <th>Type</th>
+          <th>Couleur</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.id }}</td>
+          <td>{{ reservation.reservationDate | date }}</td>
+          <td>{{ reservation.status }}</td>
+          <td>{{ reservation.email }}</td>
+          <td>{{ reservation.marque }}</td>
+          <td>{{ reservation.modele }}</td>
+          <td>{{ reservation.typeVehicule }}</td>
+          <td>{{ reservation.couleur }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm">Voir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+-->
+<div class="container mt-5">
+    <h1>Liste des Réservations</h1>
+  <form (ngSubmit)="addReservation()" class="mb-4">
+  <div class="row">
+    <div class="col-md-2">
+      <input type="email" [(ngModel)]="newReservation.email" name="email" class="form-control" placeholder="Email" required />
+    </div>
+    <div class="col-md-2">
+      <input type="text" [(ngModel)]="newReservation.marque" name="marque" class="form-control" placeholder="Marque" required />
+    </div>
+    <div class="col-md-2">
+      <input type="text" [(ngModel)]="newReservation.modele" name="modele" class="form-control" placeholder="Modèle" required />
+    </div>
+    <div class="col-md-2">
+      <input type="text" [(ngModel)]="newReservation.typeVehicule" name="typeVehicule" class="form-control" placeholder="Type de véhicule" required />
+    </div>
+    <div class="col-md-2">
+      <input type="text" [(ngModel)]="newReservation.couleur" name="couleur" class="form-control" placeholder="Couleur" required />
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-success">Ajouter</button>
+    </div>
+  </div>
+</form>
+
+  
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Marque</th>
+          <th>Modèle</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.id }}</td>
+          <td>{{ reservation.reservationDate | date }}</td>
+          <td>{{ reservation.status }}</td>
+          <td>{{ reservation.marque }}</td>
+          <td>{{ reservation.modele }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm">Voir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="container mt-5">
+    <h1>Modifier la Réservation</h1>
+    <form (ngSubmit)="updateReservation()" class="mb-4">
+      <div class="row">
+        <!-- L'ID est maintenant seulement un champ readonly dans le formulaire -->
+        <div class="col-md-1">
+            <input type="text" [(ngModel)]="updatedReservation.id" name="id" class="form-control" placeholder="ID" readonly />
+          </div>
+          
+        <div class="col-md-2">
+          <input type="email" [(ngModel)]="updatedReservation.email" name="email" class="form-control" placeholder="Email" required />
+        </div>
+        <div class="col-md-2">
+          <input type="text" [(ngModel)]="updatedReservation.marque" name="marque" class="form-control" placeholder="Marque" required />
+        </div>
+        <div class="col-md-2">
+          <input type="text" [(ngModel)]="updatedReservation.modele" name="modele" class="form-control" placeholder="Modèle" required />
+        </div>
+        <div class="col-md-2">
+          <input type="text" [(ngModel)]="updatedReservation.typeVehicule" name="typeVehicule" class="form-control" placeholder="Type de véhicule" required />
+        </div>
+        <div class="col-md-2">
+          <input type="text" [(ngModel)]="updatedReservation.couleur" name="couleur" class="form-control" placeholder="Couleur" required />
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-success">Mettre à jour</button>
+        </div>
+      </div>
+    </form>
+</div>
+
+  
+  
+  
+  

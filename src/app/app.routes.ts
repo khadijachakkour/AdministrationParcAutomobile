@@ -8,6 +8,10 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { ParcDashboardComponent } from './Pages/parc-dashboard/parc-dashboard.component';
 import { TechnicianDashboardComponent } from './Pages/technician-dashboard/technician-dashboard.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { ReservationComponent } from './Reservation/reservation/reservation.component';
+import { ReservationsfrontComponent } from './reservationsfront/reservationsfront.component';
+import { ReservationDetailComponent } from './reservation-detail/reservation-detail.component';
+
 
 export const  routes: Routes = [
     {
@@ -34,6 +38,33 @@ export const  routes: Routes = [
     {
         path: '' , redirectTo:'Registrer', pathMatch :'full'
     },
+    {
+        path: '' , redirectTo:'reservation', pathMatch :'full'
+    },
+     {
+        path: '' , redirectTo:'reservationsfront', pathMatch :'full'
+    },
+    {
+        path: '' , redirectTo:'reservation-detail', pathMatch :'full'
+    },
+    
+    { path: 'modifier-reservation/:id',
+     component: ReservationsfrontComponent 
+     },
+
+    {
+        path : 'reservation-detail',
+        component: ReservationDetailComponent
+    },
+    {
+        path : 'reservationsfront',
+        component: ReservationsfrontComponent
+    },
+    {
+        path : 'reservation',
+        component: ReservationComponent
+    },
+    
     {
         path : 'Registrer',
         component: UserRegistrationComponent
