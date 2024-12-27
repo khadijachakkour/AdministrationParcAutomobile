@@ -1,6 +1,5 @@
 package com.example.serviceuser.controller;
 
-
 import com.example.serviceuser.dto.UserDTO;
 import com.example.serviceuser.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,34 +67,48 @@ public class UserController {
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
-    /* @Operation(summary = "Get a user by email", description = "Retrieves a user by their email.")
-    @GetMapping("/email/{email}")
-    public ResponseEntity<UserDTO> getByEmail(
-            @Parameter(description = "Email of the user to retrieve", required = true) @PathVariable String email) {
-        UserDTO userDTO = userService.getUserByEmail(email);
-        if (userDTO != null) {
-            return ResponseEntity.ok(userDTO);
-        }
-        return ResponseEntity.notFound().build();
-    }
 
-     */
+   @Operation(summary = "Get a user by email", description = "Retrieves a user by their email.")
+   @GetMapping("/email/{email}")
+   public ResponseEntity<Map<String, String>> getByEmail(
+           @Parameter(description = "Email of the user to retrieve", required = true) @PathVariable String email) {
+       UserDTO userDTO = userService.getUserByEmail(email);
+       if (userDTO != null) {
+           // Construire une carte pour les informations de l'utilisateur
+           Map<String, String> infos_user = new HashMap<>();
+           infos_user.put("id", String.valueOf(userDTO.getId())); // Convertir en String
+           infos_user.put("email", userDTO.getEmail());
+           infos_user.put("password", userDTO.getPassword()); // Vérifiez si c'est sensible
+           infos_user.put("scope", userDTO.getRoleName()); // Supposez que `getRoleName` retourne un rôle sous forme de chaîne
 
-    @Operation(summary = "Get a user by email", description = "Retrieves a user by their email.")
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Map<String, String>> getByEmail(
-            @Parameter(description = "Email of the user to retrieve", required = true) @PathVariable String email) {
-        UserDTO userDTO = userService.getUserByEmail(email);
-        if (userDTO != null) {
-            // Construire une carte pour les informations de l'utilisateur
-            Map<String, String> infos_user = new HashMap<>();
-            infos_user.put("email", userDTO.getEmail());
-            infos_user.put("password", userDTO.getPassword()); // Vérifiez si c'est sensible
-            infos_user.put("scope", userDTO.getRoleName()); // Assumez que `getRole` retourne un rôle sous forme de chaîne
+           return ResponseEntity.ok(infos_user);
+       }
+       return ResponseEntity.notFound().build();
+   }
 
-            return ResponseEntity.ok(infos_user);
-        }
-        return ResponseEntity.notFound().build();
-    }
+   @PostMapping("/roles")
+   public ResponseEntity<List<String>> getUserRoles(
+           @RequestParam String email,
+           @RequestParam String password) {
+       // Log pour afficher l'entrée
+       System.out.println("Requête reçue pour email: " + email + " et password: " + password);
+
+       // Validation de l'utilisateur
+       if (userService.validateUser(email, password)) {
+           // Récupération des rôles de l'utilisateur
+           List<String> roles = userService.getUserRoles(email);
+           System.out.println("Rôles retournés pour " + email + ": " + roles);
+
+           // Retourner les rôles
+           return ResponseEntity.ok(roles);
+       } else {
+           // Log en cas d'échec
+           System.out.println("Validation échouée pour email: " + email);
+
+           // Retourner une réponse Unauthorized
+           return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+       }
+   }
+
 
 }

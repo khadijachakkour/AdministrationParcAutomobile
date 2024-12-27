@@ -36,6 +36,8 @@ public class SecConfig {
                         //.pathMatchers("/login/**").permitAll()
                         .pathMatchers("/SERVICE-USER/api/users/email/{id}").permitAll()
                         .pathMatchers("/SERVICE-USER/api/users/**").hasAuthority("SCOPE_Admin")
+                        .pathMatchers("/SERVICE-USER/api/users").hasAuthority("SCOPE_Admin")
+
 
                         .anyExchange().authenticated()
                 )
