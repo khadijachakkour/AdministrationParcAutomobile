@@ -1,0 +1,10 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0da10357_002D6db7_002D4de5_002Da287_002Dc45021d2fe60/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetReservationById_InvalidId_ReturnsBadRequest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::98894435-B635-46A3-AF42-3D86A0F0D929::net8.0::reservation.Tests.Controllers.Test_Controlleur&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::98894435-B635-46A3-AF42-3D86A0F0D929::net8.0::reservation.Test.Services.UserServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::98894435-B635-46A3-AF42-3D86A0F0D929::net8.0::reservation.Test.Services.VehicleServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::98894435-B635-46A3-AF42-3D86A0F0D929::net8.0::reservation.Test.Services.ReservationServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::98894435-B635-46A3-AF42-3D86A0F0D929::net8.0::reservation.Test.Integration.ReservationControllerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

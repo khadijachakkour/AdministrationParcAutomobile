@@ -24,11 +24,20 @@ namespace reservation.Repositories
         }
 
         // Méthode pour obtenir une réservation par son ObjectId
-        public async Task<Models.Reservation> GetReservationByIdAsync(ObjectId id)
+        /*
+        public async Task<Models.Reservation> GetReservationByIdAsync(int id)
+        {
+            // Recherche de la réservation par son ID (int)
+            return await _reservations.Find(r => r.Id == id).FirstOrDefaultAsync();
+        }
+        */
+       public async Task<Models.Reservation> GetReservationByIdAsync(ObjectId id)
         {
             // Recherche de la réservation par son ObjectId
             return await _reservations.Find(r => r.Id == id).FirstOrDefaultAsync();
         }
+        
+     
 
         // Méthode pour obtenir toutes les réservations
         public async Task<IEnumerable<Models.Reservation>> GetAllReservationsAsync()
@@ -46,11 +55,23 @@ namespace reservation.Repositories
         }
 
         // Méthode pour supprimer une réservation
-        public async Task<bool> DeleteReservationAsync(ObjectId id)
+        /*
+        public async Task<bool> DeleteReservationAsync(int id)
+        {
+            // Suppression de la réservation par son ID (int)
+            var result = await _reservations.DeleteOneAsync(r => r.Id == id);
+            return result.DeletedCount > 0;
+        }
+        
+        */
+     public async Task<bool> DeleteReservationAsync(ObjectId id)
         {
             // Suppression de la réservation par son ObjectId
             var result = await _reservations.DeleteOneAsync(r => r.Id == id);
             return result.DeletedCount > 0;
         }
+    
+    
     }
+    
 }

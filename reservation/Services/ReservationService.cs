@@ -3,6 +3,7 @@ using MongoDB.Bson; // Importer MongoDB.Bson pour ObjectId
 using reservation.Models;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace reservation.Services
@@ -25,6 +26,7 @@ namespace reservation.Services
         }
 
         // Méthode pour créer une réservation avec l'ID utilisateur obtenu par l'email
+        /*
         public async Task<Models.Reservation> CreateReservationAsync(Models.Reservation reservation)
         {
             // Récupérer l'ID utilisateur par email (assurez-vous que GetUserIdByEmailAsync renvoie un int)
@@ -44,6 +46,31 @@ namespace reservation.Services
             // Créer la réservation
             return await _reservationRepository.CreateReservationAsync(reservation);
         }
+        */
+        public async Task<Models.Reservation> CreateReservationAsync(Models.Reservation reservation)
+        {
+            Console.WriteLine("Création d'une réservation : " + JsonSerializer.Serialize(reservation)); // Log des détails de la réservation
+
+            // Récupérer l'ID utilisateur par email
+            var userId = await _userService.GetUserIdByEmailAsync(reservation.Email);
+            reservation.UserId = userId; // Assigner l'ID utilisateur à la réservation
+
+            // Recherche du véhicule via l'API des véhicules
+            var vehicle = await _vehicleService.SearchVehicleAsync(reservation.Marque, reservation.Modele, reservation.TypeVehicule, reservation.Couleur);
+
+            if (vehicle == null)
+            {
+                throw new Exception("Aucun véhicule correspondant trouvé.");
+            }
+
+            // Assigner le véhicule à la réservation
+            reservation.VehicleId = vehicle.id;
+            reservation.Status = "En attente"; // Le statut par défaut
+
+            // Créer la réservation
+            return await _reservationRepository.CreateReservationAsync(reservation);
+        }
+
 
         // Méthode pour obtenir une réservation par ID
         public async Task<Models.Reservation> GetReservationByIdAsync(ObjectId id)

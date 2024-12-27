@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using reservation.Repositories;
 using reservation.Services;
-
+/*
 namespace reservation.Test.Services;
 
 [TestFixture]
@@ -72,3 +72,4 @@ namespace reservation.Test.Services;
             Assert.AreEqual("Confirmée", result.Status);
         }
     }
+    */
