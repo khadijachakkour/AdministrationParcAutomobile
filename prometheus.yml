@@ -1,0 +1,10 @@
+scrape_configs:
+  - job_name: 'discovery-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['discovery-service:8761']  # Adresse et port du service discovery-service
+
+  - job_name: 'service-user'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['service-user:8090']  # Adresse et port du service user-service
