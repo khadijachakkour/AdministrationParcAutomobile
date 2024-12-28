@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: discovery-service
-          image: labo_discovery_images:latest
+          image: discoveryimage:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8761
