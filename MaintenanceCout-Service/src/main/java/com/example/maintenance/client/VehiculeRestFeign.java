@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@FeignClient(name = "vehicule-service", url = "http://localhost:8085")
+@FeignClient(name = "vehicule-service", url = "http://vehicule:8085")
 public interface VehiculeRestFeign {
 
     @GetMapping("/api/v1/vehicules/{id}")

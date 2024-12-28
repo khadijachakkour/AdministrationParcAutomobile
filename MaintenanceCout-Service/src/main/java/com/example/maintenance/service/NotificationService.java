@@ -17,7 +17,7 @@ public class NotificationService {
         this.restTemplate = restTemplate;
     }
     public void sendUserNotification(String message) {
-        String url = "http://localhost:5000/notifications";
+        String url = "http://notification:5010/notifications";
 
         // Configurez l'en-tête
         HttpHeaders headers = new HttpHeaders();
